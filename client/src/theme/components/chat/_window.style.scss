@@ -1,0 +1,81 @@
+.chat__window{
+    width: 70%;
+    &-header{
+        min-width: 100%;
+        @include flex(row,space-between,center,null);
+    }
+    &-title,&-room{
+        width: 20%;
+        margin:20px 0px;
+        font-style: italic;
+    }
+    &-yellowgreen{
+        color:yellowgreen;
+    }
+    &-messages{
+        box-sizing: border-box;
+        padding: 20px;
+        width: 100%;
+        height: 500px;
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0px 0px 50px lightgrey;
+    }
+    &-message{
+        padding: 10px 20px;
+        width: fit-content;
+        border-radius: 10px;
+        background-color: #f1f1f1;
+        &-user-and-date{
+            font-size: 12px;
+            font-style:italic;
+        }
+        &.reciver{
+            margin-left: auto;
+            background-color: skyblue;
+        }
+        &.sender{
+            margin-right: auto;
+            background-color:rgb(255, 200, 98);
+        }
+    }
+    &-controls{
+        button{
+            padding: 10px 0px;
+            width: 100%;;
+          
+            font-weight: bold;
+            font-style: italic;
+            color: white;
+            background-color: yellowgreen;
+            border-radius: 5px;
+            margin:5px 0px;
+            border:0px;
+            outline: none;
+            &:active,&:focus{
+                border:0px;
+                outline: none;
+            }
+        }
+    }
+    &-message-field{
+        margin:5px 0px;
+        padding: 5px 0px;
+        width: 100%;
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0px 0px 50px lightgrey;
+        textarea{
+            margin-top: 5px;
+            padding: 5px 20px;
+            width: 85%;
+            height: 20px;
+            border:0px;
+            outline: none;
+            &:active,&:focus{
+                border:0px;
+                outline: none;
+            }
+        }
+    }
+}

@@ -1,0 +1,15 @@
+@mixin flex($direction,$jc,$ai,$fw){
+    display: flex;
+    @if($direction){
+        flex-direction: $direction;
+    }
+    @if($jc){
+        justify-content: $jc;
+    }
+    @if($ai){
+        align-items: $ai;
+    }
+    @if($fw){
+        flex-wrap: $fw;
+    }
+}

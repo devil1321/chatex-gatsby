@@ -1,0 +1,25 @@
+@import './fonts.style';
+@import './variables.style';
+@import './mixins.style';
+@import './global.style';
+
+
+/*****************COMPONENTS*******************/
+
+@import './components/layout.style';
+@import './components/layout-with-sidebar.style';
+@import './components/nav.style';
+@import './components/search.style';
+@import './components/sidebar.style';
+@import './components/footer.style';
+@import './components/swiper-override.style';
+@import './components/chat/nav.style.scss';
+@import './components/chat/users.style.scss';
+@import './components/chat/window.style.scss';
+
+/*****************PAGES************************/
+
+@import './pages/home.style';
+@import './pages/rooms.style';
+@import './pages/chat.style';
+@import './pages/contact.style';

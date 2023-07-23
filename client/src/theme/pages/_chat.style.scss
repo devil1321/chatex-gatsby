@@ -1,0 +1,8 @@
+.chat{
+    &__inner-wrapper{
+        padding: 0px 80px;
+    }
+    &__wrapper{
+        @include flex(row,space-between,flex-start,null);
+    }
+}

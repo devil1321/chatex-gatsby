@@ -1,0 +1,35 @@
+.nav{
+    box-sizing: border-box;
+    height: 50px;
+    background-color: #fff;
+    padding:0px 80px;
+    box-shadow: 0px 10px 20px lightgrey;
+    @include flex(row,flex-end,center,null);
+    &__menu{
+        @include flex(row,center,center,null);
+        width: 30%;
+        a{
+            cursor: pointer;
+            padding:8px 15px;
+            text-decoration: none;
+            color:black;
+            display: block;
+            position: relative;
+            top:0px;
+            left:0px;
+            &::before{
+                content: '';
+                position: absolute;
+                bottom:-8px;
+                left:50%;
+                width: 70%;
+                transform: translateX(-50%);
+            }
+            &:hover{
+                &::before{
+                    border-bottom: 3px solid black;
+                }
+            }
+        }
+    }
+}

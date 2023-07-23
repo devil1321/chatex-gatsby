@@ -1,0 +1,21 @@
+.rooms{
+    &__wrapper{
+        padding: 50px 0px;
+        @include flex(row,center,center,wrap);
+    }
+    &__room{
+        cursor: pointer;
+        width: 20%;
+        height: 150px;
+        margin: 10px;
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0px 0px 50px lightgrey;
+        transition: all 0.3s ease-in-out;
+        @include flex(row,center,center,null);
+        &:hover{
+            transform:translateY(-10px);
+            box-shadow: 0px 0px 50px rgb(156, 156, 156);
+        }
+    }
+}
