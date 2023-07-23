@@ -1,4 +1,4 @@
-node_modules/
-.cache/
-public
-src/gatsby-types.d.ts
+clinet/node_modules/
+client/.cache/
+client/public
+client/src/gatsby-types.d.ts
