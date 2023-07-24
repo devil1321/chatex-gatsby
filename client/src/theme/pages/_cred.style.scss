@@ -1,0 +1,90 @@
+.cred{
+    &__form{
+        width: 40%;
+        margin: 0px auto;
+        img{
+            width: 100%;
+        }
+    }
+    label{
+        display: block;
+        font-style: italic;
+        width: 70%;
+        margin:10px auto;
+    }
+    &__field{
+        cursor:text;
+        width: 70%;
+        margin:10px auto;
+        border-radius: 5px;
+        background-color: #fff;
+        position: relative;
+        top:0px;
+        left:0px;
+        &::before{
+            content: '';
+            position: absolute;
+            bottom:0px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0%;
+            transition: all 0.5s ease-in-out;
+            border-bottom: 2px solid yellowgreen;
+        }
+        &.active{
+            &::before{
+                width: 100%;
+            }
+        }
+        input{
+            pointer-events: none;
+            padding: 8px;
+            background-color: transparent;
+            border:0px;
+            outline: none;
+            &:active,&:focus{
+                border:0px;
+                outline: none;
+            }
+        }
+    }
+    button {
+        cursor: pointer;
+        font-weight: bold;
+        color: white;
+        display: block;
+        width: 70%;
+        margin:10px auto;
+        height: 40px;
+        border-radius: 5px;
+        border:0px;
+        outline: none;
+        transition: all 0.3s ease-in-out;
+        &:hover{
+            opacity: 0.6;
+        }
+        &:active,&:focus{
+            border:0px;
+            outline: none;
+        }
+    }
+    &__google{
+        background-color: red;
+    }
+    &__submit{
+        background-color: skyblue;
+    }
+    &__err{
+        width: 70%;
+        margin:10px auto;
+        font-size: 12px;
+        overflow-x: hidden;
+    }
+    &__err-text{
+        margin:5px 0px;
+        color:red;
+        font-style: italic;
+        transform: translateX(-500px);
+        transition: all 0.3s ease-in-out;
+    }
+}

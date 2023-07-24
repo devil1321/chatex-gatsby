@@ -1,0 +1,32 @@
+@keyframes fadeInWithRotate{
+    0%{
+        opacity: 0;
+        transform:translateX(-50%)  translateY(20px) rotateY(-40deg);
+    }
+    100%{
+        opacity: 1;
+        transform: translateX(-50%) translateY(0px) rotateY(0deg);
+    }
+}
+@keyframes fadeOutWithRotate{
+    0%{
+        opacity: 1;
+        transform: translateX(-50%) translateY(0px) rotateY(0deg);
+    }
+    100%{
+        opacity: 0;
+        transform: translateX(-50%) translateY(20px) rotateY(-40deg);
+    }
+   
+}
+@keyframes fadeOutWithMove{
+    0%{
+        opacity: 1;
+        transform:translateX(-50%)  translateY(0px);
+    }
+    100%{
+        opacity: 0;
+        transform: translateX(-50%) translateY(20px);
+    }
+   
+}

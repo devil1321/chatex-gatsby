@@ -13,8 +13,6 @@ const Nav:React.FC<{rooms:string[]}> = ({rooms}) => {
         modules={[Scrollbar,Pagination]}
         spaceBetween={10}
         slidesPerView={5}
-        onSlideChange={() => console.log('slide change')}
-        onSwiper={(swiper) => console.log(swiper)}
         scrollbar={{ draggable: true }}
         pagination={{ clickable: true }}
       >

@@ -1,5 +1,6 @@
 @import './fonts.style';
 @import './variables.style';
+@import './animations.style';
 @import './mixins.style';
 @import './global.style';
 
@@ -19,7 +20,9 @@
 
 /*****************PAGES************************/
 
+@import './pages/cred.style';
 @import './pages/home.style';
 @import './pages/rooms.style';
 @import './pages/chat.style';
 @import './pages/contact.style';
+@import './pages/error.style';

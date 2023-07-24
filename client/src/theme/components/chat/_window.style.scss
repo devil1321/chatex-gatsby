@@ -1,11 +1,14 @@
 .chat__window{
+    br{
+        visibility: hidden;
+    }
     width: 70%;
     &-header{
         min-width: 100%;
         @include flex(row,space-between,center,null);
     }
     &-title,&-room{
-        width: 20%;
+        min-width: fit-content;
         margin:20px 0px;
         font-style: italic;
     }
@@ -13,6 +16,7 @@
         color:yellowgreen;
     }
     &-messages{
+        overflow-y: scroll;
         box-sizing: border-box;
         padding: 20px;
         width: 100%;
@@ -22,8 +26,9 @@
         box-shadow: 0px 0px 50px lightgrey;
     }
     &-message{
+        max-width: 250px;
+        word-wrap: break-word;
         padding: 10px 20px;
-        width: fit-content;
         border-radius: 10px;
         background-color: #f1f1f1;
         &-user-and-date{
@@ -59,6 +64,10 @@
         }
     }
     &-message-field{
+        @include flex(row,space-between,center,null);
+        position: relative;
+        top:0px;
+        left:0px;
         margin:5px 0px;
         padding: 5px 0px;
         width: 100%;
@@ -76,6 +85,37 @@
                 border:0px;
                 outline: none;
             }
+        }
+    }
+    &-emoji{
+        cursor: pointer;
+        @include flex(row,space-between,center,wrap);
+        width: 25px;
+        height: 25px;
+        margin-right: 10px;
+        div{
+            width: 10px;
+            height: 10px;
+            margin: 1px;
+            background-color: black;
+        }
+    }
+    &-emojies{
+        &::-webkit-scrollbar{
+            display: none !important;
+        }
+        position: absolute;
+        right:0px;
+        top:100px;
+        overflow-y: scroll;
+        height:300px;
+        width: 100%;
+        @include flex(row,space-between,center,wrap);
+        & > div{
+            cursor: pointer;
+            margin:10px;
+            min-width: 10px;
+            min-height: 10px;
         }
     }
 }

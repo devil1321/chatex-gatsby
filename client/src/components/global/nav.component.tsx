@@ -1,8 +1,12 @@
-import React from 'react'
+import React,{ useState,useRef, MutableRefObject } from 'react'
 import { Link } from 'gatsby'
 import Search from './search.component'
 
 const Nav = () => {
+
+  const [isProfile,setIsProfile] = useState<boolean>(false)
+  const [isClicked,setIsClicked] = useState<boolean>(false)
+  const menuRef = useRef() as MutableRefObject<HTMLDivElement>
 
   const rooms = [
     "Chatterbox Central",
@@ -37,6 +41,26 @@ const Nav = () => {
     "Mixed Age Melody"
   ]
 
+  const handleMenu = () =>{
+    if(!isProfile){
+      menuRef.current.style.display = 'block'
+      menuRef.current.style.animation = 'fadeInWithRotate 0.5s ease-in-out forwards'
+      setIsProfile(true)
+    }else {
+      menuRef.current.style.animation = 'fadeOutWithMove 0.5s ease-in-out forwards'
+      setIsProfile(false)
+      let timeout = () => {
+        menuRef.current.style.display = 'none'
+      };
+      let set = setTimeout(timeout,1000)
+      clearTimeout(set)
+    }
+  }
+
+  const handleLogout = () =>{
+
+  }
+
   return (
     <div className='nav'>
       <Search rooms={rooms}/>
@@ -52,7 +76,17 @@ const Nav = () => {
           </Link>
         <Link to="/contact">
           Contact
-          </Link>
+        </Link>
+        <div className="nav__profile">
+          <div className="nav__profile-img" onClick={()=>handleMenu()}>
+            <img src='/user.png' alt={'profile'}/>
+          </div>
+          <div className="nav__profile-menu" ref={menuRef}>
+              <Link to="/profile">Profile</Link>
+              <Link to="/contacts">Contacts</Link>
+              <Link to="#" onClick={()=>handleLogout()}>Logout</Link>
+          </div>
+        </div>
        </div>
     </div>
   )
