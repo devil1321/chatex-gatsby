@@ -83,7 +83,7 @@ const Nav = () => {
           </div>
           <div className="nav__profile-menu" ref={menuRef}>
               <Link to="/profile">Profile</Link>
-              <Link to="/contacts">Contacts</Link>
+              <Link to="/users">Users</Link>
               <Link to="#" onClick={()=>handleLogout()}>Logout</Link>
           </div>
         </div>

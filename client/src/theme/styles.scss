@@ -14,9 +14,20 @@
 @import './components/sidebar.style';
 @import './components/footer.style';
 @import './components/swiper-override.style';
+@import './components/home/hero.style.scss';
+@import './components/home/intro.style.scss';
 @import './components/chat/nav.style.scss';
 @import './components/chat/users.style.scss';
 @import './components/chat/window.style.scss';
+@import './components/contact/header.style.scss';
+@import './components/contact/form.style.scss';
+@import './components/profile/contacts.style';
+@import './components/profile/form.style';
+@import './components/profile/info.style';
+@import './components/profile/widget.style';
+@import './components/profile/room.style';
+@import './components/users/search.style.scss';
+@import './components/users/user.style.scss';
 
 /*****************PAGES************************/
 
@@ -25,4 +36,6 @@
 @import './pages/rooms.style';
 @import './pages/chat.style';
 @import './pages/contact.style';
+@import './pages/profile.style';
+@import './pages/users.style';
 @import './pages/error.style';

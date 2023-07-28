@@ -1,0 +1,44 @@
+.profile__info{
+    position: relative;
+    top:0px;
+    left:0px;
+    width: 100%;
+    border-radius: 10px;
+    overflow: hidden;
+    background-color: #fff;
+    height: 500px;
+    @include flex(column,center,flex-start,null);
+    &::before{
+        content: '';
+        position: absolute;
+        top:0px;
+        left:0px;
+        width: 100%;
+        height: 40%;
+        background-color: rgb(231, 231, 231);
+    }
+    &-img{
+        position: relative;
+        top:0px;
+        left:0px;
+        z-index: 10;
+        margin:50px auto;
+        width: 100px;
+        height: 100px;
+        border-radius: 100%;
+        overflow: hidden;
+        img{
+            width: 100%;
+        }
+      
+    }
+    &-information{
+        padding: 20px;
+        label{
+            font-size: 12px;
+            font-style: italic;
+            display: block;
+            margin: 5px 0px;
+        }
+    }
+}

@@ -1,0 +1,20 @@
+.contact__header{
+    width: 45%;
+    margin: 0px auto;
+    position: relative;
+    top:0px;
+    left:0px;
+    padding: 50px 0px;
+    &::before{
+        content: '';
+        position: absolute;
+        bottom:20px;
+        left:50%;
+        width: 30%;
+        transform: translateX(-50%);
+        border-bottom: 10px solid yellowgreen;
+    }
+    h1,p{
+        text-align: center;
+    }
+}

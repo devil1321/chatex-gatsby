@@ -1,0 +1,13 @@
+.profile__room{
+    margin:5px 0px;
+    border-radius: 10px;
+    background-color: #fff;
+    padding:5px 20px;
+    @include flex(row,space-between,center,null);
+    h3,p{
+        font-style: italic;
+    }
+    p{
+        font-size: 12px;
+    }
+}

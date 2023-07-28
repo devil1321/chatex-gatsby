@@ -1,0 +1,22 @@
+.home__hero{
+    position: relative;
+    top:-85px;
+    left:0px;
+    @include flex(row,center,center,null);
+    &-text{
+        position: relative;
+        left: 100px;
+        top:0px;
+        z-index: 2;
+        h1{
+            font-size: 50px;
+            color: yellowgreen;
+            font-style: italic;
+        }
+    }
+    &-img{
+        margin-top: 50px;
+        width: 50%;
+        transform: rotate(90deg);
+    }
+}

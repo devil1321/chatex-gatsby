@@ -1,0 +1,22 @@
+.home__intro{
+    padding: 0px 80px;
+    @include flex(row,space-between,center,null);
+    &-text{
+        position: relative;
+        left: 100px;
+        z-index: 2;
+        width: 50%;
+        h2{
+            margin:20px 0px;
+            font-size: 40px;
+            color: yellowgreen;
+        }
+        p{
+            font-style: italic;
+        }
+    }
+    &-img{
+        width: 50%;
+        transform: rotate(10deg);
+    }
+}

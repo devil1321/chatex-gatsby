@@ -1,0 +1,18 @@
+.profile{
+    &__inner-wrapper{
+        box-sizing: border-box;
+        padding:70px 20px 0px;
+        @include flex(row,space-between,flex-start,null);
+    }
+    &__item{
+        width: 30%;
+        &:nth-of-type(2){
+            position: relative;
+            left: -1.5%;
+            top:0px;
+        }
+    }
+    &__rooms-title{
+        margin:15px 20px;
+    }
+}

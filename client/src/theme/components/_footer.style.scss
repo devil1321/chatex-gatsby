@@ -1,11 +1,81 @@
 .footer{
-    display: none !important;
-    margin-top: auto;
-    min-height: 100px;
+    margin-top: 150px;
+    min-height: 150px;
     text-align: center;
     background-color: #fff;
     padding:0px 80px;
     box-sizing: border-box;
     box-shadow: 0px -10px 20px lightgrey;
-    @include flex(row,center,center,null);
+    @include flex(row,space-between,center,null);
+    &__logo{
+        text-align: left;
+        h2{
+            color:yellowgreen;
+        }
+        p{
+            font-style: italic;
+        }
+    }
+    &__list{
+        margin-right: auto;
+        margin-left: 100px;
+        a{
+            margin:5px 0px;
+            display: block;
+            text-align: left;
+            position: relative;
+            top:0px;
+            left:0px;
+            &:hover{
+                &::before{
+                    content: '';
+                    position: absolute;
+                    bottom:-5px;
+                    left:0px;
+                    width: 100%;
+                    border-bottom: 1px solid lightgray;
+                }
+            }
+        }
+    }
+    &__contact{
+        form{
+            @include flex(column,center,flex-start,null);
+        }
+        label{
+            margin:5px 0px;
+            font-style: italic;
+        }
+        input{
+            width: 81%;
+            padding: 5px 20px;
+            border-radius: 5px;
+            border:1px solid lightgray;
+            outline: none;
+            &:focus,&:active{
+                outline: none;    
+            }
+        }
+        button{
+            cursor: pointer;
+            margin:5px 0px;
+            padding:8px 0px;
+            width: 100%;
+            color:white;
+            font-weight: bold;
+            font-style: italic;
+            border-radius: 5px;
+            transition: all 0.3s ease-in-out;
+            outline: none;
+            border: 0px;
+           background: linear-gradient(45deg,yellowgreen,orange);
+            &:active,&:focus{
+                outline: none;
+                border: 0px;
+            }
+            &:hover{
+                opacity:0.7;
+            }
+        }
+    }
 }
