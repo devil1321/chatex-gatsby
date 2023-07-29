@@ -2,44 +2,18 @@ import React,{ useState,useRef, MutableRefObject } from 'react'
 import { Link } from 'gatsby'
 import Search from './search.component'
 
+import { useDispatch } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import * as UIActions from '../../controller/actions-creators/ui.actions-creators'
+
 const Nav = () => {
 
   const [isProfile,setIsProfile] = useState<boolean>(false)
   const [isClicked,setIsClicked] = useState<boolean>(false)
   const menuRef = useRef() as MutableRefObject<HTMLDivElement>
 
-  const rooms = [
-    "Chatterbox Central",
-    "Friendly Hangout",
-    "Ageless Connections",
-    "Global Chit-Chat",
-    "Lifelong Conversations",
-    "Fun Chat Lounge",
-    "All-Age Social Circle",
-    "Infinite Interactions",
-    "Chatlandia",
-    "Diverse Discussions",
-    "Open Minds Forum",
-    "Universal Chat Hub",
-    "People's Parley",
-    "Community Exchange",
-    "Timeless Talks",
-    "Multigenerational Banter",
-    "Everybody Talks",
-    "The Chat Commons",
-    "InterAge Dialogues",
-    "Inclusive Interaction",
-    "Worldly Whispers",
-    "Social Spectrum",
-    "Age-Free Exchange",
-    "The Conversation Patch",
-    "United Chatscape",
-    "Global Talk Haven",
-    "Cross-Generational Exchange",
-    "Friendly Folks Forum",
-    "The Everlasting Chat",
-    "Mixed Age Melody"
-  ]
+  const dispatch = useDispatch()
+  const UI = bindActionCreators(UIActions,dispatch)
 
   const handleMenu = () =>{
     if(!isProfile){
@@ -63,7 +37,12 @@ const Nav = () => {
 
   return (
     <div className='nav'>
-      <Search rooms={rooms}/>
+      <div className="nav__sidebar" onClick={()=>UI.handleSidebar()}>
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+      <Search rooms={[]}/>
        <div className="nav__menu">
         <Link to="/">
           Home

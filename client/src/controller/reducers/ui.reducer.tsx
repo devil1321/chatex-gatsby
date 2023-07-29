@@ -13,6 +13,10 @@ export default (state:any = initState,action:Action) =>{
             return{
                 ...state
             }
+        case UITypes.HANDLE_SIDEBAR:
+            return{
+                ...state
+            }
         default:
             return state
     }

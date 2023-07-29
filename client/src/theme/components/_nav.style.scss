@@ -9,6 +9,19 @@
     padding:0px 80px;
     box-shadow: 0px 10px 20px lightgrey;
     @include flex(row,flex-end,center,null);
+    &__sidebar{
+        cursor: pointer;
+        position: absolute;
+        left: 25px;
+        top:12px;
+        span{
+            pointer-events: none;
+            display: block;
+            margin:5px 0px;
+            border-bottom: 2px solid black;
+            width: 25px;
+        }
+    }
     &__menu{
         @include flex(row,center,center,null);
         width: 30%;

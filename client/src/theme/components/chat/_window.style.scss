@@ -26,6 +26,7 @@
         box-shadow: 0px 0px 50px lightgrey;
     }
     &-message{
+        margin:5px 0px;
         max-width: 250px;
         word-wrap: break-word;
         padding: 10px 20px;
@@ -104,6 +105,8 @@
         &::-webkit-scrollbar{
             display: none !important;
         }
+        background-color: #fff;
+        border-radius: 5px;
         position: absolute;
         right:0px;
         top:100px;
@@ -117,5 +120,9 @@
             min-width: 10px;
             min-height: 10px;
         }
+    }
+    &-placeholder{
+        height: 300px;
+        border-radius: 5px;
     }
 }

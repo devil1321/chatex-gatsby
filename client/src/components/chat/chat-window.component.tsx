@@ -1912,15 +1912,16 @@ const Window = () => {
               <div></div>
               <div></div>
             </span>
-            <div className="chat__window-emojies">
-              {isEmojies && emojies.map(em => <div onClick={()=> {
+            {isEmojies && <div className="chat__window-emojies">
+              {emojies.map(em => <div onClick={()=> {
                 handleEmoji(em)
               }} className="chat__window-icon">{em}</div>)}
-            </div>
+            </div>}
           </div>
           <button type='submit'>Send</button>
         </form>
       </div>
+      {isEmojies && <div className='chat__window-placeholder'></div>}
     </div>
   )
 }

@@ -15,7 +15,6 @@ passport.use(new GoogleStrategy({
         user = JSON.stringify(data)
     }))
     if(user){
-        console.log(user)
         return done(null, user);
     }else{
         redisClient.set(`user:${profile._json.email}`,JSON.stringify({
@@ -23,6 +22,8 @@ passport.use(new GoogleStrategy({
             email:profile._json.email,
             phone:null,
             aboutMe:null,
+            isOnline:true,
+            contacts:[]
         }), (err, reply) => {
             if(err){
                 console.log(err)
@@ -32,6 +33,8 @@ passport.use(new GoogleStrategy({
                     email:profile._json.email,
                     phone:null,
                     aboutMe:null,
+                    isOnline:true,
+                    contacts:[]
                 }
                 return done(null, user);
             }

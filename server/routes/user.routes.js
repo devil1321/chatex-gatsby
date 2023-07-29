@@ -52,4 +52,13 @@ router.post('/update',(req,res)=>{
     }
 })
 
+router.post('/add-contact',(req,res)=>{
+    const { user, contact } = req.body
+    let tmpUser = user
+    let tmpContacts = [...user.contacts]
+    tmpContacts.push(contact)
+    tmpUser.contacts = tmpContacts
+    updateUser(req,res,tmpUser)
+})
+
 module.exports = router

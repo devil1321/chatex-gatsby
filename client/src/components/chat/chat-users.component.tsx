@@ -83,14 +83,18 @@ const Users = () => {
   return (
     <div className='chat__users'>
       {matches?.map((m:Message) => {
-        return(
-          <div className={`chat__users-user ${m?.user?.isOnline ? 'online' : 'offline'}`}
-            onClick={()=>{
-              chatActions.handleReciver(m?.user.email)
-              chatActions.handleRoom('private')
-            }}
-          >{m?.user?.email}</div>
-        )
+        if(m?.user?.email && m?.user?.isOnline){
+          return(
+            <div className={`chat__users-user ${m?.user?.isOnline ? 'online' : 'offline'}`}
+              onClick={()=>{
+                chatActions.handleReciver(m?.user?.email)
+                chatActions.handleRoom('private')
+              }}
+            >{m?.user?.email}</div>
+            )
+        }else{
+          return null
+        }
       })}
       <div className="chat__users-search">
         <form action="">

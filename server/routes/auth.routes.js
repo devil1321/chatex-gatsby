@@ -26,6 +26,7 @@ router.post('/register',(req,res)=>{
                             isOnline:true,
                             phone:null,
                             aboutMe:null,
+                            contacts:[]
                         }), (err, reply) => {
                             if (err) {
                               console.error("Error storing JSON data in Redis:", err);
@@ -36,6 +37,7 @@ router.post('/register',(req,res)=>{
                                 email:email,
                                 password:hash,
                                 isOnline:true,
+                                contacts:[]
                               }
                             }
                           });
