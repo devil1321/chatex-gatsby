@@ -1,8 +1,27 @@
 const express = require('express')
 const router = express.Router()
 const updateUser = require('../controllers/update-user')
+const redisClient = require('../controllers/db')
 const bcrypt = require('bcrypt');
 const saltRounds = 12
+
+
+router.get('/users',async(req,res)=>{
+    const allKeys = await redisClient.keys("*");
+    const regex = /user:/gi
+    const users = allKeys.filter(k =>regex.test(k))
+    console.log(users)
+    if(users.length > 0){
+        const allValues = await redisClient.mget(...users);
+        let vals = []
+        allValues.forEach(v =>{
+            vals.push(JSON.parse(v))
+        })
+        res.json([...vals])
+    }else{
+        res.json({msg:'No registered users in db'})
+    }
+})
 
 router.post('/update',(req,res)=>{
     const { username, email, password, phone, aboutMe } = req.body

@@ -1,47 +1,38 @@
-import React from 'react'
+import React,{ useEffect } from 'react'
+import { navigate } from 'gatsby'
 import { GlobalComponents } from '../components/global'
+import { State } from '../controller/reducers'
+import { useSelector, useDispatch } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import * as ApiActions from '../controller/actions-creators/api.actions-creators'
+import * as ChatActions from '../controller/actions-creators/chat.action-creators'
 
 const Rooms = () => {
 
-  const rooms = [
-    "Chatterbox Central",
-    "Friendly Hangout",
-    "Ageless Connections",
-    "Global Chit-Chat",
-    "Lifelong Conversations",
-    "Fun Chat Lounge",
-    "All-Age Social Circle",
-    "Infinite Interactions",
-    "Chatlandia",
-    "Diverse Discussions",
-    "Open Minds Forum",
-    "Universal Chat Hub",
-    "People's Parley",
-    "Community Exchange",
-    "Timeless Talks",
-    "Multigenerational Banter",
-    "Everybody Talks",
-    "The Chat Commons",
-    "InterAge Dialogues",
-    "Inclusive Interaction",
-    "Worldly Whispers",
-    "Social Spectrum",
-    "Age-Free Exchange",
-    "The Conversation Patch",
-    "United Chatscape",
-    "Global Talk Haven",
-    "Cross-Generational Exchange",
-    "Friendly Folks Forum",
-    "The Everlasting Chat",
-    "Mixed Age Melody"
-  ]
+  const dispatch = useDispatch()
+  const apiActions = bindActionCreators(ApiActions,dispatch)
+  const chatActions = bindActionCreators(ChatActions,dispatch)
+  const { rooms } = useSelector((state:State) => state.api)
+
+  const handleNavigate = () =>{
+    setTimeout(() => {
+      navigate('/chat')
+    }, 500);
+  }
+
+  useEffect(()=>{
+    apiActions.getRooms()
+  },[])
 
   return (
     <GlobalComponents.LayoutWithSidebar title="rooms" className='rooms'>
         <div className="rooms__wrapper">
-            {rooms.map(r => {
+            {rooms.map((r:string) => {
               return(
-                  <div className='rooms__room'>{r}</div>
+                  <div key={r} className='rooms__room' onClick={()=>{
+                    chatActions.handleRoom(r)
+                    handleNavigate()
+                  }}>{r}</div>
                   )
             })}
         </div>

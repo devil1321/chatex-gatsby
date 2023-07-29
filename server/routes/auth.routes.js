@@ -23,6 +23,7 @@ router.post('/register',(req,res)=>{
                             username:username,
                             email:email,
                             password:hash,
+                            isOnline:true,
                             phone:null,
                             aboutMe:null,
                         }), (err, reply) => {
@@ -33,7 +34,8 @@ router.post('/register',(req,res)=>{
                               req.session.user = {
                                 username:username,
                                 email:email,
-                                password:hash
+                                password:hash,
+                                isOnline:true,
                               }
                             }
                           });

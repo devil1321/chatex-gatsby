@@ -1,6 +1,7 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const session = require('express-session')
+const cors = require('cors')
 const app = express()
 
 const passport = require("passport");
@@ -19,6 +20,8 @@ require('dotenv').config()
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json())
 
+app.use(cors())
+
 app.use(session({
     secret:'chatex'
 }))
@@ -29,7 +32,7 @@ app.use(passport.session());
 app.use('/auth',AuthRoutes)
 app.use('/auth',PassportRoutes)
 
-app.use((req,res,next) => isAuth(req,res,next))
+// app.use((req,res,next) => isAuth(req,res,next))
 
 app.get('/',(req,res)=>{
     res.json(req.user)

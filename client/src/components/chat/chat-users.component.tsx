@@ -1,21 +1,27 @@
 import React, { MutableRefObject,useRef,useEffect, useState } from 'react'
+import { State } from '../../controller/reducers'
+import { useSelector, useDispatch } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import * as ApiActions from '../../controller/actions-creators/api.actions-creators'
+import * as ChatActions from '../../controller/actions-creators/chat.action-creators'
 
-interface User{
-  name:string;
-  isOnline:boolean;
+interface Message{
+  user:{
+    email:string;
+    isOnline:boolean;
+  }
+  message:string;
 }
 
 const Users = () => {
+
+  const dispatch = useDispatch()
+  const apiActions = bindActionCreators(ApiActions,dispatch)
+  const chatActions = bindActionCreators(ChatActions,dispatch)
+  const { activeRoom } = useSelector((state:State) => state.api) 
+  const { room } = useSelector((state:State) => state.chat) 
   
-  const [users,setUsers] = useState<User[]>([
-    {name:'Anna', isOnline:true},
-    {name:'Todd', isOnline:false},
-    {name:'Michal', isOnline:true},
-    {name:'Jacek', isOnline:false},
-    {name:'Magda', isOnline:true},
-    {name:'Asia', isOnline:true},
-  ])
-  const [matches,setMatches] = useState<User[]>(users)
+  const [matches,setMatches] = useState<Message[]>([])
 
   const handleChange = (e:any) => {
     const users_nodes = document.querySelectorAll('.chat__users-user') as NodeListOf<HTMLDivElement>
@@ -24,13 +30,13 @@ const Users = () => {
       n.style.transform = 'translateX(-500px)'
     })
     if(e.target.value.length === 0){
-      setMatches([...users])
+      setMatches(activeRoom?.messages?.messages)
     }else{
-      const tmp = users.filter(u => {
-        const regExp = new RegExp(`^${e.target.value}`,'i')
-        return regExp.test(u.name)
+      const tmp = activeRoom?.messages?.messages.filter((m:Message) => {
+        const regExp = new RegExp(`^user:${e.target.value}`,'i')
+        return regExp.test(m?.user?.email)
       })
-      setMatches(tmp)
+      setMatches(removeDuplicates(tmp))
     }
   }
 
@@ -44,15 +50,46 @@ const Users = () => {
     })
   }
 
+  const handleSetMatches = () =>{
+    apiActions.getRoomMessages(room)
+    setTimeout(() => {
+      setMatches(removeDuplicates(activeRoom?.messages?.messages))
+    }, 100);
+  }
+
+  const removeDuplicates = (arr: Message[]): Message[] => {
+    const uniqueEmails = new Set<string>();
+    if(arr?.length > 0){
+      return arr.filter((message) => {
+        if (!uniqueEmails.has(message?.user?.email)) {
+          uniqueEmails.add(message?.user?.email);
+          return true;
+        }
+        return false;
+      });
+    }else{
+      return []
+    }
+  }
+
+  useEffect(()=>{
+    handleSetMatches()
+  },[room])
+
   useEffect(()=>{
     handleAnimation(0,100)
   },[matches])
 
   return (
     <div className='chat__users'>
-      {matches.map(u => {
+      {matches?.map((m:Message) => {
         return(
-          <div className={`chat__users-user ${u.isOnline ? 'online' : 'offline'}`}>{u.name}</div>
+          <div className={`chat__users-user ${m?.user?.isOnline ? 'online' : 'offline'}`}
+            onClick={()=>{
+              chatActions.handleReciver(m?.user.email)
+              chatActions.handleRoom('private')
+            }}
+          >{m?.user?.email}</div>
         )
       })}
       <div className="chat__users-search">

@@ -1,5 +1,11 @@
 import React, { useEffect, useState } from 'react'
 
+import { State } from '../../controller/reducers'
+import { useSelector, useDispatch } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import * as ChatActions from '../../controller/actions-creators/chat.action-creators'
+import * as ApiActions from '../../controller/actions-creators/api.actions-creators'
+
 interface Message{
   sender:string;
   reciver:string;
@@ -1817,18 +1823,18 @@ const Window = () => {
     "wales": "🏴󠁧󠁢󠁷󠁬󠁳󠁿",
   }
 
+  const dispatch = useDispatch()
+  const chatActions = bindActionCreators(ChatActions,dispatch)
+  const apiActions = bindActionCreators(ApiActions,dispatch)
+  const { room,reciver } = useSelector((state:State) => state.chat)
+  const { user,activeRoom } = useSelector((state:State) => state.api)
+
+
   const date = new Date().toUTCString()
   const [emojies,setEmojies] = useState<string[]>([])
   const [isEmojies,setIsEmojies] = useState<boolean>(false)
   const [message,setMessage] = useState<string>('')
-  const [tempMessages,setTempMessages] = useState<Message[]>([
-    {
-      sender:'Anna',
-      reciver:'Dominik',
-      message:message,
-      date:date
-    }
-  ])
+
 
   const handleParseEmojies = (ems:any) =>{
     const tmp = []
@@ -1850,31 +1856,35 @@ const Window = () => {
   
   const handleSubmit  = (e:any) => {
     e.preventDefault()
-    let tmp = [...tempMessages]
-    const date = new Date().toUTCString()
-    tmp.push({
-      sender:'Dominik',
-      reciver:'Anna',
+    const data = {
+      room:room,
       message:message,
-      date:date
-    })
-    setTempMessages(tmp)
-    setMessage('')
-    setTimeout(() => {
-      const date = new Date().toUTCString()
-      tmp.push({
-        sender:'Anna',
-        reciver:'Dominik',
-        message:'Response',
-        date:date
+      user:user,
+    }
+    if(room !== 'private'){
+      apiActions.sendMessageToRoom(data)
+    }else{
+      apiActions.sendPrivateMessage({
+        reciver:reciver,
+        sender:user?.email,
+        message:message
       })
-      setTempMessages(tmp)
-    }, 2000);
+    }
+    setMessage('')
   }
 
   useEffect(()=>{
+    console.log(activeRoom)
+  },[activeRoom])
+
+  useEffect(()=>{
     handleParseEmojies(emojiList)
-  },[])
+    if(room !== 'private'){
+      apiActions.getRoomMessages(room)
+    }else{
+      apiActions.getPrivateMessages(user?.email,reciver)
+    }
+  },[room])
 
   return (
     <div className='chat__window'>
@@ -1883,11 +1893,11 @@ const Window = () => {
         <h2 className="chat__window-room">Room: <span className="chat__window-yellowgreen">Next</span></h2>
       </div>
       <div className="chat__window-messages">
-        {tempMessages.map((m,i) =>{
+        {activeRoom?.messages?.messages?.map((m:any,i:number) =>{
           return(
-            <div className={`chat__window-message ${i % 2 === 0 ? 'sender' : 'reciver'}`}>
+            <div className={`chat__window-message ${m?.user?.email === user?.email ? 'reciver' : 'sender'}`}>
               <p className='chat__window-message-msg'>{m.message}</p>
-              <p className='chat__window-message-user-and-date'>{m.sender} {m.date}</p>
+              <p className='chat__window-message-user-and-date'>{m?.user?.email} {m.date}</p>
             </div>
           )
         })}
