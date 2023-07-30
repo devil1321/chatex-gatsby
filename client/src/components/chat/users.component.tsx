@@ -16,7 +16,7 @@ const Users = () => {
   const dispatch = useDispatch()
   const apiActions = bindActionCreators(ApiActions,dispatch)
   const chatActions = bindActionCreators(ChatActions,dispatch)
-  const { activeRoom } = useSelector((state:State) => state.api) 
+  const { activeRoom, user } = useSelector((state:State) => state.api) 
   const { room , reciver} = useSelector((state:State) => state.chat) 
   
   const [matches,setMatches] = useState<Message[]>([])
@@ -79,6 +79,28 @@ const Users = () => {
     })
   }
 
+  const handleContact = (reciver:any) =>{
+    chatActions.handleRoom('private')
+    chatActions.handleReciver(reciver)
+    apiActions.sendPrivateMessage({
+      reciver:{
+        email:reciver.email,
+      },
+      sender:user?.email,
+      message:{
+        user:user?.email,
+        message:`Contanct With User ${user?.email}`,
+        room:room
+      }
+    })
+    if(room !== 'private'){
+      apiActions.getRoomMessages(room)
+    }else{
+      apiActions.getPrivateMessages(user?.email,reciver?.email,room)
+    }
+  }
+
+
   useEffect(()=>{
     handleActive()
   },[reciver])
@@ -100,6 +122,7 @@ const Users = () => {
               onClick={()=>{
                 chatActions.handleReciver(m?.user)
                 chatActions.handleRoom('private')
+                handleContact(m?.user)
               }}
             >{m?.user?.email}</div>
             )
