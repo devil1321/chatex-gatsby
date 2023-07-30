@@ -9,7 +9,7 @@ export const handleRoom = (room:string) => (dispatch:Dispatch) =>{
     })
 }
 
-export const handleReciver = (reciver:string) => (dispatch:Dispatch) =>{
+export const handleReciver = (reciver:Interfaces.User) => (dispatch:Dispatch) =>{
     dispatch({
         type:ChatTypes.HANDLE_RECIVER,
         reciver:reciver

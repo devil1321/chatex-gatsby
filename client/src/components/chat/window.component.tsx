@@ -1824,13 +1824,11 @@ const Window = () => {
   }
 
   const dispatch = useDispatch()
-  const chatActions = bindActionCreators(ChatActions,dispatch)
   const apiActions = bindActionCreators(ApiActions,dispatch)
   const { room,reciver } = useSelector((state:State) => state.chat)
   const { user,activeRoom } = useSelector((state:State) => state.api)
 
 
-  const date = new Date().toUTCString()
   const [emojies,setEmojies] = useState<string[]>([])
   const [isEmojies,setIsEmojies] = useState<boolean>(false)
   const [message,setMessage] = useState<string>('')
@@ -1859,7 +1857,7 @@ const Window = () => {
     const data = {
       room:room,
       message:message,
-      user:user,
+      user:user.email,
     }
     if(room !== 'private'){
       apiActions.sendMessageToRoom(data)
@@ -1872,18 +1870,15 @@ const Window = () => {
     }
     setMessage('')
   }
-
-  useEffect(()=>{
-    console.log(activeRoom)
-  },[activeRoom])
-
   useEffect(()=>{
     handleParseEmojies(emojiList)
-    if(room !== 'private'){
-      apiActions.getRoomMessages(room)
-    }else{
-      apiActions.getPrivateMessages(user?.email,reciver)
-    }
+    setTimeout(() => {
+      if(room !== 'private'){
+        apiActions.getRoomMessages(room)
+      }else{
+        apiActions.getPrivateMessages(user?.email,reciver?.email,room)
+      }
+    }, 1000);
   },[room])
 
   return (

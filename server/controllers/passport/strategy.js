@@ -21,7 +21,7 @@ passport.use(new GoogleStrategy({
             username:null,
             email:profile._json.email,
             phone:null,
-            aboutMe:null,
+            aboutMe:'',
             isOnline:true,
             contacts:[]
         }), (err, reply) => {
@@ -32,7 +32,7 @@ passport.use(new GoogleStrategy({
                     username:null,
                     email:profile._json.email,
                     phone:null,
-                    aboutMe:null,
+                    aboutMe:'',
                     isOnline:true,
                     contacts:[]
                 }

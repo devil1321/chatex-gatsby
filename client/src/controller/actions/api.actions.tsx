@@ -12,6 +12,15 @@ interface GET_ROOMS {
     type:APITypes.GET_ROOMS
     rooms:any[]
 }
+interface GET_USER {
+    type:APITypes.GET_USER
+    reciver:any
+}
+interface GET_USERS {
+    type:APITypes.GET_USERS
+    users:any[]
+}
+
 interface GET_MESSAGES_FROM_ROOM {
     type:APITypes.GET_MESSAGES_FROM_ROOM
     activeRoom:any
@@ -29,4 +38,4 @@ interface SEND_PRIVATE_MESSAGE {
     activeRoom:any
 }
 
-export type Action = LOGIN | REGISTER | GET_ROOMS | GET_MESSAGES_FROM_ROOM | GET_PRIVATE_MESSAGES | SEND_MESSAGE_TO_ROOM | SEND_PRIVATE_MESSAGE
+export type Action = LOGIN | REGISTER | GET_ROOMS | GET_USERS | GET_USER | GET_MESSAGES_FROM_ROOM | GET_PRIVATE_MESSAGES | SEND_MESSAGE_TO_ROOM | SEND_PRIVATE_MESSAGE 

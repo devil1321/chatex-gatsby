@@ -10,7 +10,6 @@ router.get('/users',async(req,res)=>{
     const allKeys = await redisClient.keys("*");
     const regex = /user:/gi
     const users = allKeys.filter(k =>regex.test(k))
-    console.log(users)
     if(users.length > 0){
         const allValues = await redisClient.mget(...users);
         let vals = []
@@ -21,6 +20,19 @@ router.get('/users',async(req,res)=>{
     }else{
         res.json({msg:'No registered users in db'})
     }
+})
+
+router.get('/user',async(req,res)=>{
+    const { email } = req.body
+    redisClient.get(`user:${email}`,(err,data)=>{
+        if(err){
+            res.json({...data})
+        }else{
+            res.json({
+                msg:'User Not Found'
+            })
+        }
+    })
 })
 
 router.post('/update',(req,res)=>{

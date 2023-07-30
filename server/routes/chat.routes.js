@@ -33,7 +33,6 @@ router.post('/create-room',async(req,res)=>{
 router.post('/get-messages',(req,res)=>{
     const { room } = req.body
     redisClient.get(`room:${room}`,(err,data)=>{
-        console.log(room)
         if(err){
             res.json({
                 room:room,
@@ -82,36 +81,46 @@ router.post('/message',(req,res)=>{
     })
    
 })
-router.post('/private-messages',(req,res)=>{
-    const { reciver,sender } = req.body
+router.post('/private-messages',async(req,res)=>{
+    const { reciver,sender,room } = req.body
     redisClient.get(`${sender}:${reciver}`,(err,data)=>{
         if(err){
             res.json({'msg':'Cannot Get Private Messages'})
         }else{
             const messages = JSON.parse(data)
+            console.log(messages)
             res.json({
                 reciver,
                 sender,
-                messages:messages
+                messages:{
+                    room:room,
+                    messages:messages
+                }
             })
         }
     })
 })
 router.post('/private-message',(req,res)=>{
     const { reciver,sender,message } = req.body
-    redisClient.get(`${reciver}:${sender}`,(err,data)=>{
+    console.log(req.body)
+    redisClient.get(`${reciver.email}:${sender}`,(err,data)=>{
         if(err){
             res.json({'msg':'Cannot Send Message'})
         }else{
-            const messages = JSON.parse(data)
-            messages.push(message)
-            redisClient.set(`${reciver}:${sender}`, JSON.stringify(messages), (err, reply) => {
+            let messages = JSON.parse(data)
+            if(messages !== null){
+                messages.push(message)
+            }else{
+                messages = []
+                messages.push(message)
+            }
+            redisClient.set(`${sender}:${reciver.email}`, JSON.stringify(messages), (err, reply) => {
                 if (err) {
                   console.error("Error storing JSON data in Redis:", err);
                 } else {
                   res.json({'msg':'Message Sended'})
                 }
-              });
+            });
         }
     })
 })

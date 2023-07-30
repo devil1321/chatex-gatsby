@@ -25,7 +25,7 @@ router.post('/register',(req,res)=>{
                             password:hash,
                             isOnline:true,
                             phone:null,
-                            aboutMe:null,
+                            aboutMe:'',
                             contacts:[]
                         }), (err, reply) => {
                             if (err) {
@@ -37,7 +37,8 @@ router.post('/register',(req,res)=>{
                                 email:email,
                                 password:hash,
                                 isOnline:true,
-                                contacts:[]
+                                aboutMe:'',
+                                contacts:[],
                               }
                             }
                           });

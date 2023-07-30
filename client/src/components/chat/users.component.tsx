@@ -4,12 +4,10 @@ import { useSelector, useDispatch } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as ApiActions from '../../controller/actions-creators/api.actions-creators'
 import * as ChatActions from '../../controller/actions-creators/chat.action-creators'
+import { User } from '../../controller/interfaces'
 
 interface Message{
-  user:{
-    email:string;
-    isOnline:boolean;
-  }
+  user:User;
   message:string;
 }
 
@@ -19,9 +17,10 @@ const Users = () => {
   const apiActions = bindActionCreators(ApiActions,dispatch)
   const chatActions = bindActionCreators(ChatActions,dispatch)
   const { activeRoom } = useSelector((state:State) => state.api) 
-  const { room } = useSelector((state:State) => state.chat) 
+  const { room , reciver} = useSelector((state:State) => state.chat) 
   
   const [matches,setMatches] = useState<Message[]>([])
+  const [active,setActive] = useState<string>('')
 
   const handleChange = (e:any) => {
     const users_nodes = document.querySelectorAll('.chat__users-user') as NodeListOf<HTMLDivElement>
@@ -72,6 +71,18 @@ const Users = () => {
     }
   }
 
+  const handleActive = () =>{
+    matches.forEach(m=>{
+      if(reciver.email === m?.user?.email){
+        setActive('active')
+      }
+    })
+  }
+
+  useEffect(()=>{
+    handleActive()
+  },[reciver])
+
   useEffect(()=>{
     handleSetMatches()
   },[room])
@@ -85,9 +96,9 @@ const Users = () => {
       {matches?.map((m:Message) => {
         if(m?.user?.email && m?.user?.isOnline){
           return(
-            <div className={`chat__users-user ${m?.user?.isOnline ? 'online' : 'offline'}`}
+            <div className={`chat__users-user ${m?.user?.isOnline ? 'online' : 'offline' } ${active && 'active'}`}
               onClick={()=>{
-                chatActions.handleReciver(m?.user?.email)
+                chatActions.handleReciver(m?.user)
                 chatActions.handleRoom('private')
               }}
             >{m?.user?.email}</div>

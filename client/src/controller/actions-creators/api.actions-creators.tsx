@@ -28,6 +28,27 @@ export const getRooms = ()  => (dispath:Dispatch) =>{
         })
         .catch(err => console.log(err))
 }
+export const getUser = (email:string) => (dispath:Dispatch) =>{
+    axios.post('http://localhost:3000/user/user',{ email:email })
+        .then(res => {
+            dispath({
+                type:APITypes.GET_USER,
+                reciver:res.data
+            })
+        })
+        .catch(err => console.log(err))
+}
+
+export const getUsers = ()  => (dispath:Dispatch) =>{
+    axios.get('http://localhost:3000/user/users')
+        .then(res => {
+            dispath({
+                type:APITypes.GET_USERS,
+                users:res.data
+            })
+        })
+        .catch(err => console.log(err))
+}
 
 
 export const getRoomMessages = (room:string) => (dispatch:Dispatch) =>{
@@ -39,13 +60,16 @@ export const getRoomMessages = (room:string) => (dispatch:Dispatch) =>{
             })
         })
 }
-export const getPrivateMessages = (sender:string,reciver:string) => (dispatch:Dispatch) =>{
+
+export const getPrivateMessages = (sender:string,reciver:string,room:string) => (dispatch:Dispatch) =>{
     const data = {
         sender,
-        reciver
+        reciver,
+        room
     }
     axios.post('http://localhost:3000/chat/private-messages',data)
         .then(res=>{
+            console.log('data',res.data)
             dispatch({
                 type:APITypes.GET_PRIVATE_MESSAGES,
                 activeRoom:res.data

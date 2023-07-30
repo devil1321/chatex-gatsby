@@ -7,7 +7,7 @@ interface HANDLE_ROOM {
 
 interface HANDLE_RECIVER {
     type:ChatTypes.HANDLE_RECIVER,
-    reciver:string
+    reciver:any
 }
 
 export type Action = HANDLE_ROOM | HANDLE_RECIVER 

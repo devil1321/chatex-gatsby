@@ -43,7 +43,22 @@ export default (state:any = initState,action:Action) =>{
                 ...state,
                 rooms:action.rooms
             }
+        case APITypes.GET_USERS:
+            return{
+                ...state,
+                users:action.users
+            }
+        case APITypes.GET_USER:
+            return{
+                ...state,
+                reciver:action.reciver
+            }
         case APITypes.GET_MESSAGES_FROM_ROOM:
+            return{
+                ...state,
+                activeRoom:action.activeRoom
+            }
+        case APITypes.GET_PRIVATE_MESSAGES:
             return{
                 ...state,
                 activeRoom:action.activeRoom
