@@ -1,12 +1,20 @@
 import { Link } from 'gatsby'
 import React, { useRef, useState, MutableRefObject } from 'react'
 
+import { useDispatch } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import * as ApiActions from '../../controller/actions-creators/api.actions-creators'
+
 interface SearchProps{
     rooms:string[]
 }
 
 const Search:React.FC<SearchProps> = ({rooms}) => {
 
+  const dispatch = useDispatch()
+  const apiActions = bindActionCreators(ApiActions,dispatch)
+
+  const [room,setRoom] = useState<string>('')
   const [matches,setMatches] = useState<string[]>([])
   const wrapperRef = useRef() as MutableRefObject<HTMLDivElement>
 
@@ -32,6 +40,10 @@ const Search:React.FC<SearchProps> = ({rooms}) => {
 
   const handleSubmit = (e:any) =>{
     e.preventDefault()
+    if(!rooms.includes(room)){
+      apiActions.createRoom(room)
+    }
+    setRoom('')
     setMatches([])
   }
 
@@ -39,7 +51,10 @@ const Search:React.FC<SearchProps> = ({rooms}) => {
     <div className='search'>
       <form action="" onSubmit={(e)=>handleSubmit(e)}>
         <div className="search__field">
-            <input type="text" name="search" onChange={(e)=>handleChange(e)}/>
+            <input type="text" name="search" value={room} onChange={(e)=>{
+              handleChange(e)
+              setRoom(e.target.value)
+            }}/>
             <button type='submit'>Join</button>
         </div>
       </form>

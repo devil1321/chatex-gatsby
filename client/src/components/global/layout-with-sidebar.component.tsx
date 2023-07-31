@@ -26,17 +26,17 @@ const LayoutWithSidebar:React.FC<LayoutProps> = ({title,className,children}) => 
 
   const [isSet,setIsSet] = useState<boolean>(false)
   
-  useEffect(() => {
-    setIsSet(true)
-    setTimeout(() => {
-      if(isSet){
-        if(!user){
-          navigate('/login')
-        }
-      }
-    }, 100);
-    return () => setIsSet(false)
-  }, [user,isSet])
+  // useEffect(() => {
+  //   setIsSet(true)
+  //   setTimeout(() => {
+  //     if(isSet){
+  //       if(!user){
+  //         navigate('/login')
+  //       }
+  //     }
+  //   }, 100);
+  //   return () => setIsSet(false)
+  // }, [user,isSet])
 
 
   return (

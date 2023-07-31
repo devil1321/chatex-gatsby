@@ -9,7 +9,7 @@ const Room:React.FC<RoomProps> = ({room,date}) => {
   return (
     <div className='profile__room'>
       <h3>{room}</h3>
-      <p>{new Date().toISOString()}</p>
+      <p>{date}</p>
     </div>
   )
 }

@@ -50,17 +50,6 @@ app.get('/',(req,res)=>{
   }
 })
 
-app.get('/clear-db',(req,res)=>{
-    redisClient.flushdb((err, result) => {
-        if (err) {
-          console.error("Error clearing database:", err);
-        } else {
-          console.log("Database cleared:", result); // result will be "OK"
-        }
-    });
-    res.send('DB Cleared')
-})
-
 app.listen(process.env.PORT, () => {
   console.log('Server started ' + process.env.PORT);
 });

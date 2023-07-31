@@ -47,8 +47,8 @@ const Rooms = () => {
         <div className="rooms__create-room">
           <h2>Create Room</h2>
           <form action="" onSubmit={(e)=>handleSubmit(e)}>
-            <div className="rooms__fiels">
-              <label htmlFor="">Room Name:</label>
+            <label htmlFor="">Room Name:</label>
+            <div className="rooms__field">
               <input type="text" value={room} onChange={(e)=>setRoom(e.target.value)} />
             </div>
             <button type='submit'>Create</button>

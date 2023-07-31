@@ -2,15 +2,18 @@ import React,{ useState,useRef, MutableRefObject } from 'react'
 import { Link } from 'gatsby'
 import Search from './search.component'
 
-import { useDispatch } from 'react-redux'
+import { useDispatch,useSelector } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as UIActions from '../../controller/actions-creators/ui.actions-creators'
 import * as ApiActions from '../../controller/actions-creators/api.actions-creators'
+import { State } from '../../controller/reducers'
 
 const Nav = () => {
 
   const [isProfile,setIsProfile] = useState<boolean>(false)
   const menuRef = useRef() as MutableRefObject<HTMLDivElement>
+
+  const { rooms } = useSelector((state:State) => state.api)
 
   const dispatch = useDispatch()
   const UI = bindActionCreators(UIActions,dispatch)
@@ -32,10 +35,6 @@ const Nav = () => {
     }
   }
 
-  const handleLogout = () =>{
-
-  }
-
   return (
     <div className='nav'>
       <div className="nav__sidebar" onClick={()=>UI.handleSidebar()}>
@@ -43,7 +42,7 @@ const Nav = () => {
         <span></span>
         <span></span>
       </div>
-      <Search rooms={[]}/>
+      <Search rooms={rooms}/>
        <div className="nav__menu">
         <Link to="/">
           Home
