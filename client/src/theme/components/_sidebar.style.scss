@@ -10,6 +10,7 @@
     background:linear-gradient(45deg,#f1f1f1,black);
     transform: translateX(-100%);
     transition: all 1s ease-in-out;
+    overflow-y: scroll;
     &.active{
         transform: translateX(0%);
     }
@@ -24,7 +25,7 @@
         color:white;
         transition: all 0.3s ease-in-out;
         &:hover{
-            background-color: #f1f1f1;
+            background-color: rgb(220, 240, 181);
             color: black;
         }
     }
@@ -77,7 +78,7 @@
         border-radius: 5px;
         background-color: yellowgreen;
         transition: all 0.3s ease-in-out;
-        width: 90%;
+        width: 100%;
         position: relative;
         bottom:0px;
         left: 0px;

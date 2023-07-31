@@ -18,6 +18,7 @@ const Rooms = () => {
 
   const handleSubmit = (e:any) =>{
     e.preventDefault()
+    chatActions.handleRoom(room)
     apiActions.createRoom(room)
     handleNavigate()
   }

@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch,useSelector } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as UIActions from '../../controller/actions-creators/ui.actions-creators'
+import { State } from '../../controller/reducers'
 
 const Sidebar = () => {
 
@@ -12,19 +13,21 @@ const Sidebar = () => {
   const dispatch = useDispatch()
   const UI = bindActionCreators(UIActions,dispatch)
 
+  const { rooms, user,users } = useSelector((state:State) => state.api)
+
   return (
     <div className='sidebar'>
       <div className="sidebar__item" onClick={()=>setIsRooms(!isRooms)}>Rooms</div>
       {isRooms 
-        && <div className='sidebar__menu-item sidebar__rooms'>dd</div> 
+        && rooms?.map((r:any) => <div className='sidebar__menu-item sidebar__rooms'>{r}</div>) 
       }
       <div className="sidebar__item" onClick={()=>setIsContacts(!isContacts)}>Contacts</div>
       {isContacts 
-        && <div className='sidebar__menu-item sidebar__contacts'>dd</div> 
+        && user?.contacts?.map((c:any) => <div className='sidebar__menu-item sidebar__contacts'>{c?.email}</div>) 
       }
       <div className="sidebar__item" onClick={()=>setIsUsers(!isUsers)}>Users</div>
       {isUsers 
-        && <div className='sidebar__menu-item sidebar__users'>dd</div> 
+        && users?.map((u:any) => <div className='sidebar__menu-item sidebar__users'>{u?.email}</div>) 
       }
       <button onClick={()=>UI.handleSidebar()}>Close</button>
     </div>

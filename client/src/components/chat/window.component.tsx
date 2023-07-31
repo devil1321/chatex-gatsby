@@ -1892,8 +1892,8 @@ const Window = () => {
   return (
     <div className='chat__window'>
       <div className="chat__window-header">
-        <h2 className="chat__window-title">CZATEX</h2>
-        <h2 className="chat__window-room">Room: <span className="chat__window-yellowgreen">Next</span></h2>
+        <h2 className="chat__window-title">CHATEX</h2>
+        <h2 className="chat__window-room">Room: <span className="chat__window-yellowgreen">{room}</span></h2>
       </div>
       <div className="chat__window-messages">
         {activeRoom?.messages?.messages?.map((m:any,i:number) =>{
