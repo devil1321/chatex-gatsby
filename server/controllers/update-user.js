@@ -5,7 +5,7 @@ module.exports = function(req,res,data){
         if (err) {
             console.error("Error updating JSON data in Redis:", err);
           } else {
-            console.log("JSON data updated in Redis");
+            res.json({msg:"JSON data updated in Redis"});
           }
     })
 }

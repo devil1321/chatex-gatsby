@@ -5,15 +5,16 @@ import Search from './search.component'
 import { useDispatch } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as UIActions from '../../controller/actions-creators/ui.actions-creators'
+import * as ApiActions from '../../controller/actions-creators/api.actions-creators'
 
 const Nav = () => {
 
   const [isProfile,setIsProfile] = useState<boolean>(false)
-  const [isClicked,setIsClicked] = useState<boolean>(false)
   const menuRef = useRef() as MutableRefObject<HTMLDivElement>
 
   const dispatch = useDispatch()
   const UI = bindActionCreators(UIActions,dispatch)
+  const apiActions = bindActionCreators(ApiActions,dispatch)
 
   const handleMenu = () =>{
     if(!isProfile){
@@ -63,7 +64,9 @@ const Nav = () => {
           <div className="nav__profile-menu" ref={menuRef}>
               <Link to="/profile">Profile</Link>
               <Link to="/users">Users</Link>
-              <Link to="#" onClick={()=>handleLogout()}>Logout</Link>
+              <a href="#" onClick={()=>{
+                apiActions.logout()
+              }}>Logout</a>
           </div>
         </div>
        </div>

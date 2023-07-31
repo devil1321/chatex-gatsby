@@ -8,6 +8,36 @@ router.get('/rooms',async(req,res)=>{
     const rooms = allKeys.filter(k =>regex.test(k)).map(k => k.slice(5,k.length))
     res.json({rooms})
 })
+router.post('/last-rooms',async(req,res)=>{
+    const { user } = req.body
+    const allKeys = await redisClient.keys("*");
+    const regex = /room:/gi
+    const rooms = allKeys.filter(k =>regex.test(k)).map(k => k.slice(5,k.length))
+    let roomObjects = []
+    rooms.forEach(r =>{
+        redisClient.get(`room:${r}`,(err,data)=>{
+            if(err){
+                console.log(err)
+            }else{
+                const parsed = JSON.parse(data)
+                roomObjects.push({...parsed})
+            }
+        })
+    })
+    setTimeout(() => {
+        
+        const sorted = roomObjects.sort((a,b) =>{
+            a?.message?.date - b?.message?.date
+        })
+        const response = sorted.filter(r => {
+            const filtered = r.messages?.filter(m => m?.user === user?.email)
+            if(filtered?.length > 0){
+                return r
+            }
+        }).slice(0,3)
+        res.json([...response])
+    }, 1000);
+})
 
 router.post('/create-room',async(req,res)=>{
     const { room } = req.body
@@ -31,11 +61,12 @@ router.post('/create-room',async(req,res)=>{
 })
 
 router.post('/get-messages',(req,res)=>{
-    const { room } = req.body
+    const { room,date } = req.body
     redisClient.get(`room:${room}`,(err,data)=>{
         if(err){
             res.json({
                 room:room,
+                date:date,
                 messages:[]
             })
         }else{
@@ -88,7 +119,6 @@ router.post('/private-messages',async(req,res)=>{
             res.json({'msg':'Cannot Get Private Messages'})
         }else{
             const messages = JSON.parse(data)
-            console.log(messages)
             res.json({
                 reciver,
                 sender,

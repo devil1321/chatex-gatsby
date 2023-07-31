@@ -1,4 +1,4 @@
-import React,{ useEffect } from 'react'
+import React,{ useEffect, useState } from 'react'
 import { navigate } from 'gatsby'
 import { GlobalComponents } from '../components/global'
 import { State } from '../controller/reducers'
@@ -13,6 +13,14 @@ const Rooms = () => {
   const apiActions = bindActionCreators(ApiActions,dispatch)
   const chatActions = bindActionCreators(ChatActions,dispatch)
   const { rooms } = useSelector((state:State) => state.api)
+
+  const [room,setRoom] = useState<string>('')
+
+  const handleSubmit = (e:any) =>{
+    e.preventDefault()
+    apiActions.createRoom(room)
+    handleNavigate()
+  }
 
   const handleNavigate = () =>{
     setTimeout(() => {
@@ -35,6 +43,16 @@ const Rooms = () => {
                   }}>{r}</div>
                   )
             })}
+        </div>
+        <div className="rooms__create-room">
+          <h2>Create Room</h2>
+          <form action="" onSubmit={(e)=>handleSubmit(e)}>
+            <div className="rooms__fiels">
+              <label htmlFor="">Room Name:</label>
+              <input type="text" value={room} onChange={(e)=>setRoom(e.target.value)} />
+            </div>
+            <button type='submit'>Create</button>
+          </form>
         </div>
     </GlobalComponents.LayoutWithSidebar>
   )

@@ -1,6 +1,14 @@
-import React from 'react'
-
+import React, { useEffect } from 'react'
+import { useSelector } from 'react-redux'
+import { State } from '../../controller/reducers'
 const Info = () => {
+
+  const { user } = useSelector((state:State)=>state.api)
+
+  useEffect(()=>{
+    console.log(user)
+  },[user])
+
   return (
     <div className='profile__info'>
       <div className="profile__info-img">
@@ -8,13 +16,13 @@ const Info = () => {
       </div>
       <div className="profile__info-information">
         <label htmlFor="">Username:</label>
-        <p>Dominik1321</p>
+        <p>{user?.username}</p>
         <label htmlFor="">Email:</label>
-        <p>s.dominik1321@gmail.com</p>
+        <p>{user?.email}</p>
         <label htmlFor="">Phone:</label>
-        <p>8736-321312-3123</p>
+        <p>{user?.phone}</p>
         <label htmlFor="">About Me:</label>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea quibusdam rem quis repudiandae quae dolorem alias debitis impedit sint inventore.</p>
+        <p>{user?.aboutMe}</p>
       </div>
     </div>
   )

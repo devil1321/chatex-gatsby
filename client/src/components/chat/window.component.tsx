@@ -1856,8 +1856,11 @@ const Window = () => {
     e.preventDefault()
     const data = {
       room:room,
-      message:message,
-      user:user.email,
+      message:{
+        msg:message,
+        date:new Date().toISOString(),
+        user:user?.email,
+      },
     }
     if(room !== 'private'){
       apiActions.sendMessageToRoom(data)
@@ -1865,7 +1868,12 @@ const Window = () => {
       apiActions.sendPrivateMessage({
         reciver:reciver,
         sender:user?.email,
-        message:message
+        message:{
+          reciver:reciver,
+          sender:user?.email,
+          msg:message,
+          date:new Date().toISOString()
+        },
       })
     }
     setMessage('')
@@ -1890,9 +1898,9 @@ const Window = () => {
       <div className="chat__window-messages">
         {activeRoom?.messages?.messages?.map((m:any,i:number) =>{
           return(
-            <div className={`chat__window-message ${m?.user?.email === user?.email ? 'reciver' : 'sender'}`}>
-              <p className='chat__window-message-msg'>{m.message}</p>
-              <p className='chat__window-message-user-and-date'>{m?.user?.email} {m.date}</p>
+            <div key={m} className={`chat__window-message ${m?.message?.user === user?.email ? 'reciver' : 'sender'}`}>
+              <p className='chat__window-message-msg'>{m?.message?.msg}</p>
+              <p className='chat__window-message-user-and-date'>{m?.message?.user} {m?.message?.date}</p>
             </div>
           )
         })}

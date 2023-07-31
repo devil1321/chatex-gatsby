@@ -40,7 +40,7 @@ const Chat = () => {
   return (
     <GlobalComponents.LayoutWithSidebar title='Chat' className='chat'>
       <div className="chat__inner-wrapper">
-        <ChatComponents.Nav rooms={rooms}/>
+        <ChatComponents.Nav />
         <div className="chat__wrapper">
           <ChatComponents.Window />
           <ChatComponents.Users />

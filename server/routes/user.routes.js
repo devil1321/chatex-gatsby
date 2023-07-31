@@ -48,7 +48,7 @@ router.post('/update',(req,res)=>{
                     aboutMe:req.session.user.aboutMe,
                 }
                 updateUser(req,res,user)
-                res.json({'msg':"User Updated"})
+                res.json({user})
             })
         })
     }else{
@@ -60,7 +60,7 @@ router.post('/update',(req,res)=>{
             aboutMe 
         }
         updateUser(req,res,user)
-        res.json({'msg':"User Updated"})
+        res.json({user})
     }
 })
 

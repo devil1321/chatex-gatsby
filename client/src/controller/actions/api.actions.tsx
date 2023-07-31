@@ -8,6 +8,18 @@ interface REGISTER {
     type:APITypes.REGISTER;
     user:any;
 }
+interface GOOGLE_AUTH {
+    type:APITypes.GOOGLE_AUTH;
+    user:any;
+}
+interface LOGOUT {
+    type:APITypes.LOGOUT;
+    user:any;
+}
+interface IS_LOGGED {
+    type:APITypes.IS_LOGGED;
+    user:any;
+}
 interface GET_ROOMS {
     type:APITypes.GET_ROOMS
     rooms:any[]
@@ -16,9 +28,21 @@ interface GET_USER {
     type:APITypes.GET_USER
     reciver:any
 }
+interface UPDATE_USER {
+    type:APITypes.UPDATE_USER
+    user:any
+}
 interface GET_USERS {
     type:APITypes.GET_USERS
     users:any[]
+}
+interface GET_LAST_ROOMS {
+    type:APITypes.GET_LAST_ROOMS
+    lastRooms:any[]
+}
+interface CREATE_ROOM {
+    type:APITypes.CREATE_ROOM
+    msg:any
 }
 
 interface GET_MESSAGES_FROM_ROOM {
@@ -38,4 +62,4 @@ interface SEND_PRIVATE_MESSAGE {
     activeRoom:any
 }
 
-export type Action = LOGIN | REGISTER | GET_ROOMS | GET_USERS | GET_USER | GET_MESSAGES_FROM_ROOM | GET_PRIVATE_MESSAGES | SEND_MESSAGE_TO_ROOM | SEND_PRIVATE_MESSAGE 
+export type Action = LOGIN | REGISTER | GOOGLE_AUTH | LOGOUT | IS_LOGGED | GET_ROOMS | CREATE_ROOM | UPDATE_USER | GET_USERS | GET_USER | GET_MESSAGES_FROM_ROOM | GET_LAST_ROOMS | GET_PRIVATE_MESSAGES | SEND_MESSAGE_TO_ROOM | SEND_PRIVATE_MESSAGE 

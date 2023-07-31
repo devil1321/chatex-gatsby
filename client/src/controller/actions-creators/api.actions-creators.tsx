@@ -4,18 +4,50 @@ import * as Interfaces from '../interfaces'
 import axios from 'axios'
 
 export const login = (formData:Interfaces.FormDataLogin) => (dispath:Dispatch) =>{
-    dispath({
-        type:APITypes.LOGIN,
-        user:null
-    })
-
+    axios.post('http://localhost:3000/auth/login',formData)
+        .then(res=>{
+            dispath({
+                type:APITypes.LOGIN,
+                user:res.data.user
+            })
+        }).catch(err => console.log(err))
+}
+export const googleAuth = () => (dispath:Dispatch) =>{
+    axios.get('http://localhost:3000/auth/google')
+        .then(res=>{
+            dispath({
+                type:APITypes.GOOGLE_AUTH,
+                user:res.data.user
+            })
+        }).catch(err => console.log(err))
 }
 export const register = (formData:Interfaces.FormDataRegister) => (dispath:Dispatch) =>{
-    dispath({
-        type:APITypes.REGISTER,
-        user:null
-    })
-
+    axios.post('http://localhost:3000/auth/register',formData)
+    .then(res=>{
+        dispath({
+            type:APITypes.REGISTER,
+            user:res.data.user
+        })
+    }).catch(err => console.log(err))
+}
+export const logout = () => (dispath:Dispatch) =>{
+    axios.get('http://localhost:3000/auth/logout')
+    .then(res=>{
+        console.log(res.data)
+        dispath({
+            type:APITypes.LOGOUT,
+            user:res.data.user
+        })
+    }).catch(err => console.log(err))
+}
+export const isLogged = () => (dispath:Dispatch) =>{
+    axios.get('http://localhost:3000')
+    .then(res=>{
+        dispath({
+            type:APITypes.IS_LOGGED,
+            user:res.data.user
+        })
+    }).catch(err => console.log(err))
 }
 
 export const getRooms = ()  => (dispath:Dispatch) =>{
@@ -28,6 +60,28 @@ export const getRooms = ()  => (dispath:Dispatch) =>{
         })
         .catch(err => console.log(err))
 }
+
+export const lastRooms = (user:Interfaces.User)  => (dispath:Dispatch) =>{
+    axios.post('http://localhost:3000/chat/last-rooms',user)
+    .then(res => {
+        dispath({
+            type:APITypes.GET_LAST_ROOMS,
+            reciver:res.data
+        })
+    })
+    .catch(err => console.log(err))
+}
+export const createRoom = (room:string)  => (dispath:Dispatch) =>{
+    axios.post('http://localhost:3000/chat/create-room',{room:room})
+    .then(res => {
+        dispath({
+            type:APITypes.CREATE_ROOM,
+            msg:res.data
+        })
+    })
+    .catch(err => console.log(err))
+}
+
 export const getUser = (email:string) => (dispath:Dispatch) =>{
     axios.post('http://localhost:3000/user/user',{ email:email })
         .then(res => {
@@ -49,7 +103,16 @@ export const getUsers = ()  => (dispath:Dispatch) =>{
         })
         .catch(err => console.log(err))
 }
-
+export const updateUser = (user:Interfaces.User)  => (dispath:Dispatch) =>{
+    axios.post('http://localhost:3000/user/update',user)
+        .then(res => {
+            dispath({
+                type:APITypes.UPDATE_USER,
+                user:res.data
+            })
+        })
+        .catch(err => console.log(err))
+}
 
 export const getRoomMessages = (room:string) => (dispatch:Dispatch) =>{
     axios.post('http://localhost:3000/chat/get-messages',{room:room})
@@ -60,7 +123,6 @@ export const getRoomMessages = (room:string) => (dispatch:Dispatch) =>{
             })
         })
 }
-
 export const getPrivateMessages = (sender:string,reciver:string,room:string) => (dispatch:Dispatch) =>{
     const data = {
         sender,

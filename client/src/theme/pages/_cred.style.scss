@@ -1,4 +1,13 @@
 .cred{
+    a{
+       display: block;
+       text-align: center;
+       color: yellowgreen;
+       font-style: italic;
+       &:hover{
+        text-decoration: underline;
+       }
+    }
     &__form{
         width: 40%;
         margin: 0px auto;
@@ -70,6 +79,7 @@
     }
     &__google{
         background-color: red;
+        width: 28% !important;
     }
     &__submit{
         background-color: skyblue;

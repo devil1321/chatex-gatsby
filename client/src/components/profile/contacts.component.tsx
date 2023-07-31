@@ -1,20 +1,17 @@
 import React, { useState,useEffect } from 'react'
-
-interface UserState{
-    name:string;
-    isOnline:boolean
-}
+import { useSelector,useDispatch } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { State } from '../../controller/reducers'
+import * as ChatActions from '../../controller/actions-creators/chat.action-creators'
+import { navigate } from 'gatsby'
 
 const Contacts = () => {
-  const [users,setUsers] = useState<UserState[]>([
-    {name:'Anna', isOnline:true},
-    {name:'Todd', isOnline:false},
-    {name:'Michal', isOnline:true},
-    {name:'Jacek', isOnline:false},
-    {name:'Magda', isOnline:true},
-    {name:'Asia', isOnline:true},
-  ])
-  const [matches,setMatches] = useState<UserState[]>(users)
+
+  const { user } = useSelector((state:State) => state.api)
+  const dispatch = useDispatch()
+  const chatActions = bindActionCreators(ChatActions,dispatch)
+
+  const [matches,setMatches] = useState<any[]>(user?.contacts)
 
   const handleChange = (e:any) => {
     const users_nodes = document.querySelectorAll('.profile__contact') as NodeListOf<HTMLDivElement>
@@ -23,11 +20,11 @@ const Contacts = () => {
       n.style.transform = 'translateX(-500px)'
     })
     if(e.target.value.length === 0){
-      setMatches([...users])
+      setMatches(user?.contacts)
     }else{
-      const tmp = users.filter(u => {
+      const tmp = user?.contacts?.filter((u:any) => {
         const regExp = new RegExp(`^${e.target.value}`,'i')
-        return regExp.test(u.name)
+        return regExp.test(u?.email) || regExp.test(u?.username)
       })
       setMatches(tmp)
     }
@@ -48,9 +45,17 @@ const Contacts = () => {
   },[matches])
   return (
     <div className='profile__contacts'>
-      {matches.map((u,i) =>{
+      {matches?.map((u,i) =>{
         return(
-            <div key={i} className={`profile__contact ${u.isOnline ? 'online' : 'offline'}`}>{u.name}</div>
+            <div key={i} className={`profile__contact ${u?.isOnline ? 'online' : 'offline'}`}
+              onClick={()=>{
+                chatActions.handleReciver(u)
+                chatActions.handleRoom('private')
+                setTimeout(() => {
+                  navigate('/chat')
+                }, 500);
+              }}
+            >{u?.email}</div>
         )
       })}
       <div className="profile__contacts-search">

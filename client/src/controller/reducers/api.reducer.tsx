@@ -6,6 +6,7 @@ interface APIState{
     users:any[];
     rooms:string[];
     msg:any;
+    lastRooms:any[]
     activeRoom:{
         room:string;
         messages:{
@@ -20,6 +21,7 @@ const initState:APIState = {
     users:[],
     rooms:[],
     msg:'',
+    lastRooms:[],
     activeRoom:{
         room:'',
         messages:[]
@@ -38,6 +40,21 @@ export default (state:any = initState,action:Action) =>{
                 ...state,
                 user:action.user
             }
+        case APITypes.GOOGLE_AUTH:
+            return{
+                ...state,
+                user:action.user
+            }
+        case APITypes.LOGOUT:
+            return{
+                ...state,
+                user:action.user
+            }
+        case APITypes.IS_LOGGED:
+            return{
+                ...state,
+                user:action.user
+            }
         case APITypes.GET_ROOMS:
             return{
                 ...state,
@@ -52,6 +69,21 @@ export default (state:any = initState,action:Action) =>{
             return{
                 ...state,
                 reciver:action.reciver
+            }
+        case APITypes.UPDATE_USER:
+            return{
+                ...state,
+                user:action.user
+            }
+        case APITypes.GET_LAST_ROOMS:
+            return{
+                ...state,
+                lastRooms:action.lastRooms
+            }
+        case APITypes.CREATE_ROOM:
+            return{
+                ...state,
+                msg:action.msg
             }
         case APITypes.GET_MESSAGES_FROM_ROOM:
             return{

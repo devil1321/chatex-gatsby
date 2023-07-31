@@ -20,26 +20,35 @@ require('dotenv').config()
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json())
 
-app.use(cors())
 
 app.use(session({
-    secret:'chatex'
+  secret:'chatex'
 }))
 
 app.use(passport.initialize());
 app.use(passport.session());
+
+
+app.use(cors({
+  origin:'http://localhost:8000'
+}))
 
 app.use('/auth',AuthRoutes)
 app.use('/auth',PassportRoutes)
 
 // app.use((req,res,next) => isAuth(req,res,next))
 
-app.get('/',(req,res)=>{
-    res.json(req.user)
-})
 
 app.use('/chat',ChatRoutes)
 app.use('/user',UserRoutes)
+
+app.get('/',(req,res)=>{
+  if(req.session.user){
+    res.json({...req.session.user})
+  }else{
+    res.json({...req.user})
+  }
+})
 
 app.get('/clear-db',(req,res)=>{
     redisClient.flushdb((err, result) => {
