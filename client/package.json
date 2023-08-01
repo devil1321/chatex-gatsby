@@ -4,6 +4,7 @@
   "private": true,
   "description": "chatex",
   "author": "devil1321",
+  "proxy":"http://localhost:3000",
   "keywords": [
     "gatsby"
   ],

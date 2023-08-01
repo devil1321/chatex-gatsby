@@ -5,6 +5,6 @@ module.exports = function(req,res,next){
         }
         next()
     }else{
-        res.json({'msg':"You must be logged in"})
+        res.json({user:null})
     }
 }

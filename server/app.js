@@ -1,6 +1,7 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const session = require('express-session')
+const cookieParser = require('cookie-parser')
 const cors = require('cors')
 const app = express()
 
@@ -22,8 +23,12 @@ require('dotenv').config()
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json())
 
+app.use(cors({
+  origin:'http://localhost:8000',
+  credentials: true, 
+}))
 
-app.use(session({ secret: 'chatex-zaq12wsx', resave: false, saveUninitialized: false }));
+app.use(session({ secret: 'chatex-zaq12wsx' }));
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -84,27 +89,25 @@ passport.use(new GoogleStrategy({
     }))
   });
 
-app.use(cors({
-  origin:'http://localhost:8000',
-  credentials: true, 
-}))
+
 
 app.use('/auth',AuthRoutes)
 app.use('/auth',PassportRoutes)
 
 app.use((req,res,next) => isAuth(req,res,next))
 
-
 app.use('/chat',ChatRoutes)
 app.use('/user',UserRoutes)
 
-app.get('/',(req,res)=>{
+app.get('/is-authenticated',(req,res)=>{
   if(req.isAuthenticated()){
     res.json({...req.user})
   }else{
     res.json({...req.session.user})
   }
 })
+
+
 
 app.listen(process.env.PORT, () => {
   console.log('Server started ' + process.env.PORT);

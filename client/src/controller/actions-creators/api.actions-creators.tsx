@@ -50,7 +50,7 @@ export const logout = () => (dispath:Dispatch) =>{
     }).catch(err => console.log(err))
 }
 export const isLogged = () => (dispath:Dispatch) =>{
-    instance.get('/')
+    instance.get('/is-authenticated')
     .then(res=>{
         dispath({
             type:APITypes.IS_LOGGED,

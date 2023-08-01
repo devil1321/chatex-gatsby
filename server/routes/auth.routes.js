@@ -6,13 +6,11 @@ const saltRounds = 12
 
 const redisClient = require('../controllers/db')
 
-
-
-
 router.post('/register',(req,res)=>{
-    const { email, password, username } = req.body
+    const { email, password_1,password_2, username } = req.body
     bcrypt.genSalt(saltRounds, function(err, salt) {
-        bcrypt.hash(password, salt, function(err, hash) {
+      if(password_1.trim() === password_2.trim()){
+        bcrypt.hash(password_1.trim(), salt, function(err, hash) {
                 redisClient.get(`user:${email}`,(err,data)=>{
                 if (err) {
                     console.error("Error retrieving JSON data from Redis:", err);
@@ -34,7 +32,6 @@ router.post('/register',(req,res)=>{
                             if (err) {
                               console.error("Error storing JSON data in Redis:", err);
                             } else {
-                          
                               req.session.user = {
                                 username:username,
                                 email:email,
@@ -43,20 +40,22 @@ router.post('/register',(req,res)=>{
                                 aboutMe:'',
                                 contacts:[],
                               }
-                              res.json({user:req.session.user})
+                              res.json({...req.session.user})
                             }
                           });
                         }
                     }
             })
         });
+      }else{
+        res.json({'msg':"password not match user not registered"})
+      }
     });
 })
 
 
 router.post('/login', (req, res) => {
   const { email, password } = req.body;
-
   // Listen for the 'ready' event to ensure the Redis client is ready
     redisClient.get(`user:${email}`, (err, data) => {
       if (err) {
@@ -69,13 +68,13 @@ router.post('/login', (req, res) => {
           req.session.user = null;
           res.status(404).json({ "err": 'User not found' });
         } else {
-          bcrypt.compare(password, userData.password, function (err, result) {
+          bcrypt.compare(password.trim(), userData.password, function (err, result) {
             if (result) {
-              req.session.user = userData;
-              res.json({user:userData});
+              req.session.user = {...userData};
+              res.json({user:userData})
             } else {
               req.session.user = null;
-              res.json({user:null});
+              res.json({user:null})
             }
           });
         }
@@ -86,6 +85,7 @@ router.post('/login', (req, res) => {
 router.get('/logout', (req, res) => {
     req.session.user = null
     req.user = null
+    req.logout((err)=>console.log(err));
     res.json({user:null})
 })
 

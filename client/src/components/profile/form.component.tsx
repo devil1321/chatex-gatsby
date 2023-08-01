@@ -71,6 +71,15 @@ const Form = () => {
 
   useEffect(()=>{
     handleAnimateErrors(200,5000)
+    setFormData({
+      username:user?.username,
+      email:user?.email,
+      password:user?.password,
+      phone:user?.phone,
+      aboutMe:user?.aboutMe,
+      isOnline:user?.isOnline,
+      contacts:user?.contacts
+    })
   },[isSubmited])
 
   return (

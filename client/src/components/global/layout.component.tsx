@@ -31,7 +31,7 @@ const Layout:React.FC<LayoutProps> = ({title,className,children}) => {
       apiActions.isLogged()
       setIsSet(true)
     }
-    if(user){
+    if(user && isSet){
       localStorage.setItem("isLogged","true")
     }
   }, [isSet,user])
@@ -50,7 +50,7 @@ const Layout:React.FC<LayoutProps> = ({title,className,children}) => {
       }
     }, 100);
   },[user])
-  
+
   return (
     <div className={className}>
         <Seo title={title} meta={[]}/>

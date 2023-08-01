@@ -31,7 +31,7 @@ const LayoutWithSidebar:React.FC<LayoutProps> = ({title,className,children}) => 
       apiActions.isLogged()
       setIsSet(true)
     }
-    if(user){
+    if(user && isSet){
       localStorage.setItem("isLogged","true")
     }
   }, [isSet,user])
