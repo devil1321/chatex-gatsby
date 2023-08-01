@@ -5,10 +5,6 @@ const Info = () => {
 
   const { user } = useSelector((state:State)=>state.api)
 
-  useEffect(()=>{
-    console.log(user)
-  },[user])
-
   return (
     <div className='profile__info'>
       <div className="profile__info-img">

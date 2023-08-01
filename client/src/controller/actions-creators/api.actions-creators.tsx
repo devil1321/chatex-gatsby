@@ -3,8 +3,22 @@ import { Dispatch } from 'redux'
 import * as Interfaces from '../interfaces'
 import axios from 'axios'
 
+const instance = axios.create({
+    // Set the base URL of your back-end (Express server) running on port 3000
+    baseURL: 'http://localhost:3000',
+  
+    // Set the proxy configuration to point to your back-end
+    proxy: {
+      host: 'localhost',
+      port: 3000,
+    },
+  
+    // Enable sending credentials (e.g., cookies) to the back-end
+    withCredentials: true,
+  });
+
 export const login = (formData:Interfaces.FormDataLogin) => (dispath:Dispatch) =>{
-    axios.post('http://localhost:3000/auth/login',formData)
+    instance.post('/auth/login',formData)
         .then(res=>{
             dispath({
                 type:APITypes.LOGIN,
@@ -13,16 +27,10 @@ export const login = (formData:Interfaces.FormDataLogin) => (dispath:Dispatch) =
         }).catch(err => console.log(err))
 }
 export const googleAuth = () => (dispath:Dispatch) =>{
-    axios.get('http://localhost:3000/auth/google')
-        .then(res=>{
-            dispath({
-                type:APITypes.GOOGLE_AUTH,
-                user:res.data.user
-            })
-        }).catch(err => console.log(err))
+    window.open("http://localhost:3000/auth/google", "_self")
 }
 export const register = (formData:Interfaces.FormDataRegister) => (dispath:Dispatch) =>{
-    axios.post('http://localhost:3000/auth/register',formData)
+    instance.post('/auth/register',formData)
     .then(res=>{
         dispath({
             type:APITypes.REGISTER,
@@ -31,7 +39,8 @@ export const register = (formData:Interfaces.FormDataRegister) => (dispath:Dispa
     }).catch(err => console.log(err))
 }
 export const logout = () => (dispath:Dispatch) =>{
-    axios.get('http://localhost:3000/auth/logout')
+    localStorage.removeItem('isLogged')
+    instance.get('/auth/logout')
     .then(res=>{
         console.log(res.data)
         dispath({
@@ -41,17 +50,17 @@ export const logout = () => (dispath:Dispatch) =>{
     }).catch(err => console.log(err))
 }
 export const isLogged = () => (dispath:Dispatch) =>{
-    axios.get('http://localhost:3000')
+    instance.get('/')
     .then(res=>{
         dispath({
             type:APITypes.IS_LOGGED,
-            user:res.data.user
+            user:res.data
         })
     }).catch(err => console.log(err))
 }
 
 export const getRooms = ()  => (dispath:Dispatch) =>{
-    axios.get('http://localhost:3000/chat/rooms')
+    instance.get('/chat/rooms')
         .then(res => {
             dispath({
                 type:APITypes.GET_ROOMS,
@@ -62,7 +71,7 @@ export const getRooms = ()  => (dispath:Dispatch) =>{
 }
 
 export const lastRooms = (user:Interfaces.User)  => (dispath:Dispatch) =>{
-    axios.post('http://localhost:3000/chat/last-rooms',user)
+    instance.post('/chat/last-rooms',user)
     .then(res => {
         dispath({
             type:APITypes.GET_LAST_ROOMS,
@@ -72,7 +81,7 @@ export const lastRooms = (user:Interfaces.User)  => (dispath:Dispatch) =>{
     .catch(err => console.log(err))
 }
 export const createRoom = (room:string)  => (dispath:Dispatch) =>{
-    axios.post('http://localhost:3000/chat/create-room',{room:room})
+    instance.post('/chat/create-room',{room:room})
     .then(res => {
         dispath({
             type:APITypes.CREATE_ROOM,
@@ -83,7 +92,7 @@ export const createRoom = (room:string)  => (dispath:Dispatch) =>{
 }
 
 export const getUser = (email:string) => (dispath:Dispatch) =>{
-    axios.post('http://localhost:3000/user/user',{ email:email })
+    instance.post('/user/user',{ email:email })
         .then(res => {
             dispath({
                 type:APITypes.GET_USER,
@@ -94,7 +103,7 @@ export const getUser = (email:string) => (dispath:Dispatch) =>{
 }
 
 export const getUsers = ()  => (dispath:Dispatch) =>{
-    axios.get('http://localhost:3000/user/users')
+    instance.get('/user/users')
         .then(res => {
             dispath({
                 type:APITypes.GET_USERS,
@@ -104,7 +113,7 @@ export const getUsers = ()  => (dispath:Dispatch) =>{
         .catch(err => console.log(err))
 }
 export const updateUser = (user:Interfaces.User)  => (dispath:Dispatch) =>{
-    axios.post('http://localhost:3000/user/update',user)
+    instance.post('/user/update',user)
         .then(res => {
             dispath({
                 type:APITypes.UPDATE_USER,
@@ -115,7 +124,7 @@ export const updateUser = (user:Interfaces.User)  => (dispath:Dispatch) =>{
 }
 
 export const getRoomMessages = (room:string) => (dispatch:Dispatch) =>{
-    axios.post('http://localhost:3000/chat/get-messages',{room:room})
+    instance.post('/chat/get-messages',{room:room})
         .then(res=>{
             dispatch({
                 type:APITypes.GET_MESSAGES_FROM_ROOM,
@@ -129,7 +138,7 @@ export const getPrivateMessages = (sender:string,reciver:string,room:string) => 
         reciver,
         room
     }
-    axios.post('http://localhost:3000/chat/private-messages',data)
+    instance.post('/chat/private-messages',data)
         .then(res=>{
             console.log('data',res.data)
             dispatch({
@@ -140,7 +149,7 @@ export const getPrivateMessages = (sender:string,reciver:string,room:string) => 
 }
 
 export const sendMessageToRoom = (data:any) => (dispatch:Dispatch) =>{
-    axios.post('http://localhost:3000/chat/message',data)
+    instance.post('/chat/message',data)
         .then(res=>{
             dispatch({
                 type:APITypes.SEND_MESSAGE_TO_ROOM,
@@ -150,7 +159,7 @@ export const sendMessageToRoom = (data:any) => (dispatch:Dispatch) =>{
 }
 
 export const sendPrivateMessage = (data:any) => (dispatch:Dispatch) =>{
-    axios.post('http://localhost:3000/chat/private-message',data)
+    instance.post('/chat/private-message',data)
         .then(res=>{
             dispatch({
                 type:APITypes.SEND_PRIVATE_MESSAGE,
