@@ -14,6 +14,12 @@
     &.active{
         transform: translateX(0%);
     }
+    @include breakpoint-down(small){
+        width: 100%;
+        button{
+            width: 95% !important;
+        }
+    }
     &__item{
         cursor: pointer;
         font-weight: bold;

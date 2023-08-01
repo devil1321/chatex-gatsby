@@ -3,6 +3,9 @@
         visibility: hidden;
     }
     width: 70%;
+    @include breakpoint-down(small){
+        width: 100%;
+    }
     &-header{
         min-width: 100%;
         @include flex(row,space-between,center,null);
@@ -94,6 +97,9 @@
         width: 25px;
         height: 25px;
         margin-right: 10px;
+        @include breakpoint-down(small){
+            width: 30px;
+        }
         div{
             width: 10px;
             height: 10px;
@@ -114,6 +120,7 @@
         height:300px;
         width: 100%;
         @include flex(row,space-between,center,wrap);
+     
         & > div{
             cursor: pointer;
             margin:10px;

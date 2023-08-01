@@ -21,15 +21,17 @@ export const handleCredInputFocus = (e:any) => (dispath:Dispatch) =>{
 
 export const handleSidebar = () => (dispath:Dispatch) =>{
     const sidebar = document.querySelector('.sidebar') as HTMLDivElement
-    if(!sidebar?.classList.contains('active')){
-      sidebar.classList.add('active')
-      dispath({
-        type:UITypes.HANDLE_SIDEBAR
-      })
-    }else{
-      sidebar.classList.remove('active')
-      dispath({
-        type:UITypes.HANDLE_SIDEBAR
-      })
+    if(sidebar){
+      if(!sidebar?.classList.contains('active')){
+        sidebar.classList.add('active')
+        dispath({
+          type:UITypes.HANDLE_SIDEBAR
+        })
+      }else{
+        sidebar.classList.remove('active')
+        dispath({
+          type:UITypes.HANDLE_SIDEBAR
+        })
+      }
     }
   }

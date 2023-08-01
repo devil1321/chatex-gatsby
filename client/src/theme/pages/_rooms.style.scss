@@ -17,6 +17,10 @@
         box-shadow: 0px 0px 50px lightgrey;
         transition: all 0.3s ease-in-out;
         @include flex(row,center,center,null);
+        @include breakpoint-down(small){
+            width: 80%;
+            
+        }
         &:hover{
             transform:translateY(-10px);
             box-shadow: 0px 0px 50px rgb(156, 156, 156);

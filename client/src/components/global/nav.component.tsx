@@ -12,6 +12,7 @@ const Nav = () => {
 
   const [isProfile,setIsProfile] = useState<boolean>(false)
   const menuRef = useRef() as MutableRefObject<HTMLDivElement>
+  const menuMobileRef = useRef() as MutableRefObject<HTMLDivElement>
 
   const { rooms } = useSelector((state:State) => state.api)
 
@@ -20,18 +21,32 @@ const Nav = () => {
   const apiActions = bindActionCreators(ApiActions,dispatch)
 
   const handleMenu = () =>{
-    if(!isProfile){
-      menuRef.current.style.display = 'block'
-      menuRef.current.style.animation = 'fadeInWithRotate 0.5s ease-in-out forwards'
-      setIsProfile(true)
-    }else {
-      menuRef.current.style.animation = 'fadeOutWithMove 0.5s ease-in-out forwards'
-      setIsProfile(false)
-      let timeout = () => {
-        menuRef.current.style.display = 'none'
-      };
-      let set = setTimeout(timeout,1000)
-      clearTimeout(set)
+    if(typeof window !== undefined && window?.innerWidth < 768){
+      if(!isProfile){
+        menuRef.current.style.display = 'block'
+        menuRef.current.style.animation = 'fadeInWithRotate 0.5s ease-in-out forwards'
+        setIsProfile(true)
+      }else {
+        menuRef.current.style.animation = 'fadeOutWithMove 0.5s ease-in-out forwards'
+        setIsProfile(false)
+        let timeout = () => {
+          menuRef.current.style.display = 'none'
+        };
+        let set = setTimeout(timeout,1000)
+        clearTimeout(set)
+      }
+    }
+  }
+
+  const handleMenuMobile = () =>{
+    if(typeof window !== undefined){
+      if(window.innerWidth < 768){
+        if(!menuMobileRef.current.classList.contains('open')){
+          menuMobileRef.current.classList.add('open')
+        }else{
+          menuMobileRef.current.classList.remove('open')
+        }
+      }
     }
   }
 
@@ -42,8 +57,11 @@ const Nav = () => {
         <span></span>
         <span></span>
       </div>
+      <div className="nav__menu-button" onClick={()=>handleMenuMobile()}>
+        <h3>Menu</h3>
+      </div>
       <Search rooms={rooms}/>
-       <div className="nav__menu">
+       <div className="nav__menu" ref={menuMobileRef}>
         <Link to="/">
           Home
           </Link>

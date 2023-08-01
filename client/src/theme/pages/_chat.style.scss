@@ -1,8 +1,14 @@
 .chat{
     &__inner-wrapper{
         padding: 0px 80px;
+        @include breakpoint-down(small){
+            padding: 20px;
+        }
     }
     &__wrapper{
         @include flex(row,space-between,flex-start,null);
+        @include breakpoint-down(small){
+            @include flex(column,center,center,null);
+        }
     }
 }

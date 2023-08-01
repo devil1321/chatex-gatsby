@@ -1,4 +1,4 @@
-import React ,{ useEffect } from 'react'
+import React ,{ useEffect, useState } from 'react'
 
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Scrollbar,Pagination } from 'swiper/modules';
@@ -20,6 +20,8 @@ const Nav:React.FC = () => {
   const { room } = useSelector((state:State) => state.chat)
   const { rooms } = useSelector((state:State) => state.api)
 
+  const [isMobile,setIsMobile] = useState<boolean>(false)
+
 
   const handleActive = (room:string) =>{
     setTimeout(() => {
@@ -35,6 +37,11 @@ const Nav:React.FC = () => {
 
   useEffect(()=>{
     apiActions.getRooms()
+    if(typeof window !== undefined){
+      if(window.innerWidth < 768){
+        setIsMobile(true)
+      }
+    }
   },[])
 
   useEffect(()=>{
@@ -46,7 +53,7 @@ const Nav:React.FC = () => {
       <Swiper
         modules={[Scrollbar,Pagination]}
         spaceBetween={10}
-        slidesPerView={5}
+        slidesPerView={isMobile ? 2 : 5}
         scrollbar={{ draggable: true }}
         pagination={{ clickable: true }}
       >

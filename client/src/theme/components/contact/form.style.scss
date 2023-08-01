@@ -4,6 +4,10 @@
     position: relative;
     left:-2%;
     top:0px;
+    @include breakpoint-down(small){
+        width: 80%;
+        left:-5%;
+    }
     label{
         display: block;
         margin: 5px 0px;
@@ -15,6 +19,9 @@
         border-radius: 5px;
         border:0px;
         outline: none;
+        @include breakpoint-down(small){
+            width: 100%;
+        }
         &:focus,&:active{
             border:0px;
             outline: none;    

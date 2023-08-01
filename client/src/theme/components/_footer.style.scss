@@ -39,6 +39,9 @@
         }
     }
     &__contact{
+        @include breakpoint-down(small){
+            display: none;
+        }
         form{
             @include flex(column,center,flex-start,null);
         }

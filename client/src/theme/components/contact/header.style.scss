@@ -5,6 +5,9 @@
     top:0px;
     left:0px;
     padding: 50px 0px;
+    @include breakpoint-down(small){
+        width: 100%;
+    }
     &::before{
         content: '';
         position: absolute;

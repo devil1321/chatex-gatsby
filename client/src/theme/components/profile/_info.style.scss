@@ -8,6 +8,9 @@
     background-color: #fff;
     height: 500px;
     @include flex(column,center,flex-start,null);
+    @include breakpoint-down(small){
+        width: 110%;
+    }
     &::before{
         content: '';
         position: absolute;

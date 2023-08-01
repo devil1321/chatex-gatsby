@@ -10,6 +10,9 @@
         border-radius: 10px;
         box-shadow: 0px 0px 50px lightgrey;
         overflow-y: scroll;
+        @include breakpoint-down(small){
+            width: 100%;
+        }
     }
     &__contact{
         cursor: pointer;

@@ -3,10 +3,23 @@
     top:0px;
     left:0px;
     margin-right: auto;
+    @include breakpoint-down(small){
+        position: absolute;
+        top:8px;
+        left:20%;
+    }
     &__field{
         overflow: hidden;
         border:2px solid lightgray;
         border-radius: 5px;
+        @include breakpoint-down(small){
+            width: 70%;
+            overflow: visible;
+            @include flex(row,space-between,center,null);
+            input{
+                width: 80%;
+            }
+        }
         input{
             padding: 5px 20px;
             border:0px;

@@ -3,11 +3,19 @@
     top:-85px;
     left:0px;
     @include flex(row,center,center,null);
+    @include breakpoint-down(small){
+        top:0px;
+        margin-top: 100px;
+        @include flex(column,center,center,null);
+    }
     &-text{
         position: relative;
         left: 100px;
         top:0px;
         z-index: 2;
+        @include breakpoint-down(small){
+            left: 0px;
+        }
         h1{
             font-size: 50px;
             color: yellowgreen;
@@ -18,5 +26,8 @@
         margin-top: 50px;
         width: 50%;
         transform: rotate(90deg);
+        @include breakpoint-down(small){
+            width: 100%;
+        }
     }
 }
