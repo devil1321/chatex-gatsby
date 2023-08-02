@@ -4,7 +4,7 @@
   "private": true,
   "description": "chatex",
   "author": "devil1321",
-  "proxy":"http://localhost:3000",
+  "proxy": "http://localhost:3000",
   "keywords": [
     "gatsby"
   ],
@@ -22,6 +22,7 @@
     "gatsby-plugin-google-gtag": "^5.11.0",
     "gatsby-plugin-image": "^3.11.0",
     "gatsby-plugin-manifest": "^5.11.0",
+    "gatsby-plugin-react-redux": "^1.1.0",
     "gatsby-plugin-sass": "^6.11.0",
     "gatsby-plugin-sharp": "^5.11.0",
     "gatsby-plugin-sitemap": "^6.11.0",
@@ -30,6 +31,9 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-helmet": "^6.1.0",
+    "react-redux": "^8.1.2",
+    "redux": "^4.2.1",
+    "redux-thunk": "^2.4.2",
     "sass": "^1.64.1",
     "source-map": "^0.7.4"
   },
