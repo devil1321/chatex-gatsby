@@ -10,7 +10,7 @@ const instance = axios.create({
     // Set the proxy configuration to point to your back-end
     proxy: {
       host: 'https://chatex-14m2.onrender.com/',
-      port: 3000,
+      port: 10000,
     },
   
     // Enable sending credentials (e.g., cookies) to the back-end
