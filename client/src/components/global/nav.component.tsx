@@ -21,7 +21,7 @@ const Nav = () => {
   const apiActions = bindActionCreators(ApiActions,dispatch)
 
   const handleMenu = () =>{
-    if(typeof window !== undefined && window?.innerWidth < 768){
+    
       if(!isProfile){
         menuRef.current.style.display = 'block'
         menuRef.current.style.animation = 'fadeInWithRotate 0.5s ease-in-out forwards'
@@ -35,7 +35,7 @@ const Nav = () => {
         let set = setTimeout(timeout,1000)
         clearTimeout(set)
       }
-    }
+    
   }
 
   const handleMenuMobile = () =>{
