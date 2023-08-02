@@ -6,7 +6,7 @@ import { rejects } from 'assert';
 
 const instance = axios.create({
     // Set the base URL of your back-end (Express server) running on port 3000
-    baseURL: '/api',
+    baseURL: '/.netlify/functions/proxy/api/',
   
     // Set the proxy configuration to point to your back-end
     // Enable sending credentials (e.g., cookies) to the back-end
@@ -48,7 +48,6 @@ export const logout = () => (dispath:Dispatch) =>{
 export const isLogged = () => (dispath:Dispatch) =>{
     instance.get('/is-authenticated')
     .then(res=>{
-        console.log(res.data)
         dispath({
             type:APITypes.IS_LOGGED,
             user:res.data
