@@ -25,7 +25,6 @@ const Layout:React.FC<LayoutProps> = ({title,className,children}) => {
   
   const [isSet,setIsSet] = useState<boolean>(false)
   
-  
   useEffect(() => {
     if(!isSet){
       apiActions.isLogged()
@@ -41,7 +40,7 @@ const Layout:React.FC<LayoutProps> = ({title,className,children}) => {
       if(isSet){
         if(!user?.email){
           const isLogged = localStorage.getItem('isLogged')
-          if(isLogged === 'true'){
+          if(isLogged === 'true' && !user?.email){
             apiActions.isLogged()
           }else{
             navigate('/login')
