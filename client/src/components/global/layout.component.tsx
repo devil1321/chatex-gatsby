@@ -27,7 +27,6 @@ const Layout:React.FC<LayoutProps> = ({title,className,children}) => {
   
   
   useEffect(() => {
-    console.log(user)
     if(!isSet){
       apiActions.isLogged()
       setIsSet(true)
