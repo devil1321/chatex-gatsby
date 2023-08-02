@@ -34,10 +34,10 @@ const Layout:React.FC<LayoutProps> = ({title,className,children}) => {
     if(user?.email && isSet){
       localStorage.setItem("isLogged","true")
     }
+    console.log(user)
   }, [isSet,user])
 
   useEffect(()=>{
-    setTimeout(() => {
       if(isSet){
         if(!user?.email){
           const isLogged = localStorage.getItem('isLogged')
@@ -48,7 +48,6 @@ const Layout:React.FC<LayoutProps> = ({title,className,children}) => {
           }
         }
       }
-    }, 100);
   },[user,isSet])
 
   return (
