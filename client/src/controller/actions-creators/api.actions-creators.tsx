@@ -27,7 +27,7 @@ export const login = (formData:Interfaces.FormDataLogin) => (dispath:Dispatch) =
         }).catch(err => console.log(err))
 }
 export const googleAuth = () => (dispath:Dispatch) =>{
-    window.open("http://localhost:3000/auth/google", "_self")
+    window.open("https://chatex-14m2.onrender.com/auth/google", "_self")
 }
 export const register = (formData:Interfaces.FormDataRegister) => (dispath:Dispatch) =>{
     instance.post('/auth/register',formData)

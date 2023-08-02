@@ -37,17 +37,17 @@ const Layout:React.FC<LayoutProps> = ({title,className,children}) => {
   }, [isSet,user])
 
   useEffect(()=>{
-      if(isSet){
-        if(!user?.email){
-          const isLogged = localStorage.getItem('isLogged')
-          if(isLogged){
-            apiActions.isLogged()
-          }else{
-            navigate('/login')
-          }
+    if(isSet){
+      if(!user?.email){
+        const isLogged = localStorage.getItem('isLogged')
+        apiActions.isLogged()
+        if(!isLogged){
+          navigate('login')
         }
       }
-  },[user,isSet])
+    }
+},[isSet])
+
 
   return (
     <div className={className}>
