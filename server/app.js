@@ -26,7 +26,7 @@ app.use(cookieParser())
 
 
 app.use(cors({
-  origin:['https://chatex-worldwide.netlify.app','http://localhost:8000'],
+  origin:['https://chatex-worldwide.netlify.app','http://localhost:8000','64ca56b381e0030008feaeeb--chatex-worldwide.netlify.app'],
   credentials: true, 
 }))
 
