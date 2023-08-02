@@ -8,6 +8,7 @@ exports.handler = async (event, context) => {
     // Your backend API base URL
     const backendBaseUrl = 'https://chatex-14m2.onrender.com';
 
+    console.log(`${backendBaseUrl}${path}`)
     const response = await axios({
       method: httpMethod,
       url: `${backendBaseUrl}${path}`,
