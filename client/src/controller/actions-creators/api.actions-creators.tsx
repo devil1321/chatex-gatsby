@@ -10,10 +10,10 @@ const instance = axios.create({
   
     // Set the proxy configuration to point to your back-end
     proxy: {
-      host: 'https://chatex-14m2.onrender.com/',
+      host: 'chatex-14m2.onrender.com',
       port: 10000,
+      protocol: 'https'
     },
-  
     // Enable sending credentials (e.g., cookies) to the back-end
     withCredentials: true,
   });
@@ -53,6 +53,7 @@ export const logout = () => (dispath:Dispatch) =>{
 export const isLogged = () => (dispath:Dispatch) =>{
     instance.get('/is-authenticated')
     .then(res=>{
+        console.log(res.data)
         dispath({
             type:APITypes.IS_LOGGED,
             user:res.data

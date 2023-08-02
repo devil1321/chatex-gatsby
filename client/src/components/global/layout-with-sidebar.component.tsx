@@ -31,23 +31,26 @@ const LayoutWithSidebar:React.FC<LayoutProps> = ({title,className,children}) => 
       apiActions.isLogged()
       setIsSet(true)
     }
-    if(user?.email && isSet){
-      localStorage.setItem("isLogged",user.password)
+    if(user && isSet){
+      localStorage.setItem("isLogged","true")
     }
     console.log(user)
   }, [isSet,user])
 
   useEffect(()=>{
-    if(isSet){
-      if(!user?.email){
-        const isLogged = localStorage.getItem('isLogged')
-        apiActions.isLogged()
-        if(!isLogged){
-          navigate('login')
+    setTimeout(() => {
+      if(isSet){
+        if(!user){
+          const isLogged = localStorage.getItem('isLogged')
+          if(isLogged === 'true'){
+            apiActions.isLogged()
+          }else{
+            navigate('/login')
+          }
         }
       }
-    }
-},[isSet])
+    }, 100);
+  },[user])
 
 
   return (
