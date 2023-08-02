@@ -36,7 +36,7 @@ const Rooms = () => {
   return (
     <GlobalComponents.LayoutWithSidebar title="rooms" className='rooms'>
         <div className="rooms__wrapper">
-            {rooms.map((r:string) => {
+            {rooms?.map((r:string) => {
               return(
                   <div key={r} className='rooms__room' onClick={()=>{
                     chatActions.handleRoom(r)
