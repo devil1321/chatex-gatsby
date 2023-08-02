@@ -4,8 +4,6 @@ const session = require('express-session')
 const cors = require('cors')
 const app = express()
 const cookieParser = require('cookie-parser')
-const https = require('https');
-const fs = require('fs'); // Node.js file system module
 
 
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
@@ -112,15 +110,8 @@ app.get('/is-authenticated',(req,res)=>{
 })
 
 
-const options = {
-  key: fs.readFileSync('private.key'), // Path to your private key file
-  cert: fs.readFileSync('certificate.crt'), // Path to your certificate file
-};
 
-const port = process.env.PORT || 3000;
-
-const server = https.createServer(options, app);
-
-server.listen(port, () => {
-  console.log(`Secure server running on port ${port}`);
+app.listen(process.env.PORT, () => {
+  console.log('Server started ' + process.env.PORT);
 });
+
