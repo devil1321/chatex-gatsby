@@ -25,7 +25,7 @@ app.use(bodyParser.json())
 app.use(cookieParser())
 
 app.use(cors({
-  origin:'http://localhost:8000',
+  origin:'https://chatex-worldwide.netlify.app',
   credentials: true, 
 }))
 
