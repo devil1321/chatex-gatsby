@@ -32,7 +32,7 @@ const LayoutWithSidebar:React.FC<LayoutProps> = ({title,className,children}) => 
       setIsSet(true)
     }
     if(user?.email && isSet){
-      localStorage.setItem("isLogged","true")
+      localStorage.setItem("isLogged",user?.password)
     }
     console.log(user)
   }, [isSet,user])
@@ -41,7 +41,7 @@ const LayoutWithSidebar:React.FC<LayoutProps> = ({title,className,children}) => 
     if(isSet){
       if(!user?.email){
         const isLogged = localStorage.getItem('isLogged')
-        if(isLogged === 'true' && !user?.email){
+        if(isLogged){
           apiActions.isLogged()
         }else{
           navigate('/login')
