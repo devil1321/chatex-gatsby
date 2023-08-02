@@ -6,7 +6,7 @@ exports.handler = async (event, context) => {
 
   try {
     // Your backend API base URL
-    const backendBaseUrl = 'http://chatex-14m2.onrender.com';
+    const backendBaseUrl = 'https://chatex-14m2.onrender.com';
     const customPath = path.replace('/.netlify/functions/proxy','')
     
     const requestConfig = {
