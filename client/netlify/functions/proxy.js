@@ -9,6 +9,7 @@ exports.handler = async (event, context) => {
     const backendBaseUrl = 'https://chatex-14m2.onrender.com';
 
     console.log(`${backendBaseUrl}${path}`)
+    console.log('incominc req',event)
     const response = await axios({
       method: httpMethod,
       url: `${backendBaseUrl}${path}`,
