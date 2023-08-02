@@ -31,7 +31,7 @@ const LayoutWithSidebar:React.FC<LayoutProps> = ({title,className,children}) => 
       apiActions.isLogged()
       setIsSet(true)
     }
-    if(user && isSet){
+    if(user?.email && isSet){
       localStorage.setItem("isLogged","true")
     }
   }, [isSet,user])
@@ -39,7 +39,7 @@ const LayoutWithSidebar:React.FC<LayoutProps> = ({title,className,children}) => 
   useEffect(()=>{
     setTimeout(() => {
       if(isSet){
-        if(!user){
+        if(!user?.email){
           const isLogged = localStorage.getItem('isLogged')
           if(isLogged === 'true'){
             apiActions.isLogged()
