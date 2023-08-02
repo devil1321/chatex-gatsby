@@ -8,14 +8,17 @@ exports.handler = async (event, context) => {
     // Your backend API base URL
     const backendBaseUrl = 'https://chatex-14m2.onrender.com';
     const customPath = path.replace('/.netlify/functions/proxy','')
-    const response = await axios({
+    
+    const requestConfig = {
       method: httpMethod,
       url: `${backendBaseUrl}${customPath}`,
       headers: event.headers,
       params: queryStringParameters,
       data: body,
-    });
+    };
 
+    const response = await axios.request(requestConfig);
+    
     const { data, status, headers } = response;
 
     return {
