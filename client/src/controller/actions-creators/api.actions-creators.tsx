@@ -20,7 +20,7 @@ if(typeof window !== undefined){
         // Enable sending credentials (e.g., cookies) to the back-end
         withCredentials: true,
         headers:{
-            "Authorization":`Bearer ${localStorage.getItem('access_token')}`
+            "Authorization":`Bearer ${localStorage?.getItem('access_token')}`
         }
     });
 }
