@@ -101,7 +101,7 @@ passport.use(new GoogleStrategy({
         }else{
             const userObj = JSON.parse(data)
             userObj.token = user.token
-            done(null,{user:userObj});
+            done(null,{...userObj});
         }
     }))
   });
