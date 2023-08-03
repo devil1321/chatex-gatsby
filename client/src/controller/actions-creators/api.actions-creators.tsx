@@ -8,7 +8,7 @@ import { access } from 'fs';
 
 const instance = axios.create({
     // Set the base URL of your back-end (Express server) running on port 3000
-    baseURL: 'http://localhost:3000',
+    baseURL: 'https://chatex-14m2.onrender.com',
   
     // Set the proxy configuration to point to your back-end
     // Enable sending credentials (e.g., cookies) to the back-end
