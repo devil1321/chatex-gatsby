@@ -72,7 +72,7 @@ export const isLogged = () => (dispatch:Dispatch) =>{
     .then(res=>{
         dispatch({
             type:APITypes.IS_LOGGED,
-            user:res.data.user,
+            user:res.data,
         })
     }).catch(err => console.log(err))
 }

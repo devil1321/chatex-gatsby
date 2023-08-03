@@ -23,14 +23,16 @@ const LayoutWithSidebar:React.FC<LayoutProps> = ({title,className,children}) => 
   
   useEffect(()=>{
     if(typeof window !== undefined){
-        const token = localStorage.getItem('access_token')
-        if(token !== null && token !== undefined && token !== 'null' && token !== 'undefined'){
+      setTimeout(() => {
+          const token = localStorage.getItem('access_token')
+          if(token !== null && token !== undefined && token !== 'null' && token !== 'undefined'){
             apiActions.isLogged()
-        }else{
-          navigate('/login')
-        }
+          }else{
+            navigate('/login')
+          }
+        }, 2000);
     }
-  },[])
+  },[localStorage.getItem('access_token')])
 
   
   return (
