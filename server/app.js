@@ -109,7 +109,7 @@ passport.use(new GoogleStrategy({
 app.use('/auth',AuthRoutes)
 app.use('/auth',PassportRoutes)
 
-app.use(authenticateJWT)
+app.use((req,res,next)=>authenticateJWT(req,res,next))
 
 app.use('/chat',ChatRoutes)
 app.use('/user',UserRoutes)
