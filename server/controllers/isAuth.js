@@ -5,7 +5,6 @@ module.exports = authenticateJWT = (req, res, next) => {
     let token
     if(req?.user?.token){
         token = req.user.token
-        console.log('tku',token)
     }else{
         token = req.header('Authorization');
         if(token?.length > 0){
