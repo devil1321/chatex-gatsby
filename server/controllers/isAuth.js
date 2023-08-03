@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 const jwtSecret = 'jwtsecret'
 const redisClient = require('../controllers/db')
 module.exports = authenticateJWT = (req, res, next) => {
-    const token = req.header('Authorization');
+    let token = req.header('Authorization');
     if(token?.length > 0){
         token = token.slice(7);
     }
