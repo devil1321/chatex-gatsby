@@ -3,12 +3,13 @@ const jwtSecret = 'jwtsecret'
 const redisClient = require('../controllers/db')
 module.exports = authenticateJWT = (req, res, next) => {
     const token = req.header('Authorization');
-    if (!token) return res.sendStatus(401); // Unauthorized
+    if (!token) res.sendStatus(401); 
+    else{
     const extractedToken = token.slice(7);
     jwt.verify(extractedToken, jwtSecret, (err, user) => {
       if (err) {
         res.json(err)
-      }else if(user){ // Forbidden
+      }else{ // Forbidden
           redisClient.get(`user:${user.email}`, (err, data) => {
               if (err) {
                   console.error("Error retrieving JSON data from Redis:", err);
@@ -19,8 +20,7 @@ module.exports = authenticateJWT = (req, res, next) => {
                     next();
                 }
             })
-        }else{
-            next()
-        }
-   });
+            }
+        });
+    }
 };
