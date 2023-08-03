@@ -8,8 +8,7 @@ import '../../theme/styles.scss'
 import { navigate } from 'gatsby';
 import * as ApiActions from '../..//controller/actions-creators/api.actions-creators'
 import { bindActionCreators } from 'redux';
-import { useDispatch,useSelector } from 'react-redux';
-import { State } from '../../controller/reducers'
+import { useDispatch } from 'react-redux';
 
 interface LayoutProps{
     title:string;
@@ -21,17 +20,17 @@ const LayoutWithSidebar:React.FC<LayoutProps> = ({title,className,children}) => 
 
   const dispatch = useDispatch()
   const apiActions = bindActionCreators(ApiActions,dispatch)
-  const { user,access_token } = useSelector((state:State) => state.api)
   
   useEffect(()=>{
     if(typeof window !== undefined){
-        if(!user && !access_token){
+        const token = localStorage.getItem('access_token')
+        if(token !== null && token !== undefined && token !== 'null' && token !== 'undefined'){
             apiActions.isLogged()
         }else{
           navigate('/login')
         }
     }
-  },[user])
+  },[])
 
   
   return (

@@ -19,17 +19,18 @@ interface LayoutProps{
 const Layout:React.FC<LayoutProps> = ({title,className,children}) => {
   const dispatch = useDispatch()
   const apiActions = bindActionCreators(ApiActions,dispatch)
-  const { user,access_token } = useSelector((state:State) => state.api)
+  const { user } = useSelector((state:State) => state.api)
   
   useEffect(()=>{
     if(typeof window !== undefined){
-        if(!user && !access_token){
+        const token = localStorage.getItem('access_token')
+        if(token !== null && token !== undefined && token !== 'null' && token !== 'undefined'){
             apiActions.isLogged()
         }else{
           navigate('/login')
         }
     }
-  },[user])
+  },[])
 
   return (
     <div className={className}>
