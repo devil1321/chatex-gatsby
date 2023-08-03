@@ -4,7 +4,9 @@ const session = require('express-session')
 const cors = require('cors')
 const app = express()
 const cookieParser = require('cookie-parser')
-
+const jwt = require('jsonwebtoken');
+const jwtSecret = 'jwtsecret'
+const authenticateJWT = require('./controllers/isAuth')
 
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 
@@ -15,7 +17,6 @@ const PassportRoutes = require('./routes/passport.routes')
 const ChatRoutes = require('./routes/chat.routes')
 const UserRoutes = require('./routes/user.routes')
 
-const isAuth = require('./controllers/isAuth')
 const redisClient = require('./controllers/db')
 
 require('dotenv').config()
@@ -47,7 +48,14 @@ passport.use(new GoogleStrategy({
         user = JSON.stringify(data)
     }))
     if(user){
+      if (user) {
+        // Generate JWT and send it back to the client
+        const token = jwt.sign({ id: user.email, name:user.email ,email:user.email}, jwtSecret);
+        res.json({ access_token:token });
         done(null, user);
+      } else {
+        res.status(401).json({ error: 'Invalid password' });
+      }
     }else{
         redisClient.set(`user:${profile._json.email}`,JSON.stringify({
             username:null,
@@ -67,6 +75,14 @@ passport.use(new GoogleStrategy({
                     aboutMe:'',
                     isOnline:true,
                     contacts:[]
+                }
+                if (user) {
+                  // Generate JWT and send it back to the client
+                  const token = jwt.sign({ email: user.email }, jwtSecret);
+                  res.json({ access_token:token });
+                  done(null, user);
+                } else {
+                  res.status(401).json({ error: 'Invalid password' });
                 }
                 return done(null, user);
             }
@@ -96,17 +112,13 @@ passport.use(new GoogleStrategy({
 app.use('/auth',AuthRoutes)
 app.use('/auth',PassportRoutes)
 
-app.use((req,res,next) => isAuth(req,res,next))
+app.use((req,res,next)=>authenticateJWT(req,res,next))
 
 app.use('/chat',ChatRoutes)
 app.use('/user',UserRoutes)
 
 app.get('/is-authenticated',(req,res)=>{
-  if(req.isAuthenticated()){
-    res.json({...req.user})
-  }else{
-    res.json({...req.session.user})
-  }
+  res.json({...req.user})
 })
 
 

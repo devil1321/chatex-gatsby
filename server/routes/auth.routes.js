@@ -2,7 +2,8 @@ const express = require('express')
 const router = express.Router()
 const bcrypt = require('bcrypt');
 const saltRounds = 12
-
+const jwt = require('jsonwebtoken');
+const jwtSecret = 'jwtsecret'
 
 const redisClient = require('../controllers/db')
 
@@ -32,7 +33,7 @@ router.post('/register',(req,res)=>{
                             if (err) {
                               console.error("Error storing JSON data in Redis:", err);
                             } else {
-                              req.session.user = {
+                              const user = {
                                 username:username,
                                 email:email,
                                 password:hash,
@@ -40,7 +41,14 @@ router.post('/register',(req,res)=>{
                                 aboutMe:'',
                                 contacts:[],
                               }
-                              res.json({...req.session.user})
+                              if (user) {
+                                // Generate JWT and send it back to the client
+                                const token = jwt.sign({ id: user.email, name:user.email ,email:user.email}, jwtSecret);
+                                res.json({ access_token:token });
+                                done(null, user);
+                              } else {
+                                res.status(401).json({ error: 'Invalid password' });
+                              }
                             }
                           });
                         }
@@ -65,16 +73,14 @@ router.post('/login', (req, res) => {
         const userData = JSON.parse(data);
         if (!userData) {
           // User not found in Redis, handle the case accordingly
-          req.session.user = null;
           res.status(404).json({ "err": 'User not found' });
         } else {
           bcrypt.compare(password.trim(), userData.password, function (err, result) {
             if (result) {
-              req.session.user = {...userData};
-              res.json({user:userData})
+              const token = jwt.sign({ id: userData.email, name:userData.email ,email:userData.email}, jwtSecret);
+              res.json({ access_token:token });
             } else {
-              req.session.user = null;
-              res.json({user:null})
+              res.json({access_token:null})
             }
           });
         }
