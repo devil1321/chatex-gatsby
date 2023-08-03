@@ -12,8 +12,10 @@ export const wrapPageElement = ({ element }) => {
     const { user } = useSelector((state:State) => state.api)
 
     useEffect(()=>{
-        if(!user){
-            apiActions.isLogged()
+        if(typeof window !== undefined){
+            if(!user){
+                apiActions.isLogged()
+            }
         }
     },[])
 
