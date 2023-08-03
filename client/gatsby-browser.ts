@@ -20,9 +20,11 @@ export const wrapPageElement = ({ element, props }) => {
         }
     },[])
 
-    if(isAuth){
-        return element
-    }else{
-        navigate('/login')
-    }
+    setTimeout(() => {
+        if(isAuth){
+            return element
+        }else{
+            navigate('/login')
+        }
+    }, 3000);
   };
