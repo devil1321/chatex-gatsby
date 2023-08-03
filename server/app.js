@@ -35,7 +35,7 @@ app.use(session({ secret: 'chatex-zaq12wsx' }));
 app.use(passport.initialize());
 app.use(passport.session());
 
-passport.use((req,res,next,done) => new GoogleStrategy({
+passport.use(new GoogleStrategy({
     clientID: "869326613213-7dgjuusmng1u7of2ppmmbo25pq8jlefq.apps.googleusercontent.com",
     clientSecret: "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",
     callbackURL: "https://chatex-14m2.onrender.com/auth/google/callback", // The URL to handle the Google's response
@@ -51,7 +51,6 @@ passport.use((req,res,next,done) => new GoogleStrategy({
         // Generate JWT and send it back to the client
         const token = jwt.sign({ id: user.email, name:user.email ,email:user.email}, jwtSecret);
         user.token = token
-        req.user = user
         return done(null,user);
      
     }else{
@@ -78,7 +77,6 @@ passport.use((req,res,next,done) => new GoogleStrategy({
                   // Generate JWT and send it back to the client
                   const token = jwt.sign({ id:user.email, name:user.email ,email: user.email }, jwtSecret);
                   user.token = token
-                  req.user = user
                   return done(null,user);
                 } else {
                   res.status(401).json({ error: 'Invalid password' });
@@ -111,7 +109,7 @@ passport.use((req,res,next,done) => new GoogleStrategy({
 app.use('/auth',AuthRoutes)
 app.use('/auth',PassportRoutes)
 
-app.use((req,res,next)=>authenticateJWT(req,res,next))
+app.use(authenticateJWT)
 
 app.use('/chat',ChatRoutes)
 app.use('/user',UserRoutes)
