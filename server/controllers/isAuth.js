@@ -6,8 +6,10 @@ module.exports = authenticateJWT = (req, res, next) => {
     if(req?.user?.token){
         token = req.user.token
     }else{
-        token = req.header('Authorization');
-        token = token.slice(7);
+        if(token?.length > 0){
+            token = req.header('Authorization');
+            token = token.slice(7);
+        }
     }
     jwt.verify(token, jwtSecret, (err, user) => {
       if (err) {
