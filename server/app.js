@@ -18,6 +18,8 @@ const ChatRoutes = require('./routes/chat.routes')
 const UserRoutes = require('./routes/user.routes')
 
 const redisClient = require('./controllers/db')
+const RedisStore = require('connect-redis')(session);
+
 
 require('dotenv').config()
 
@@ -31,11 +33,17 @@ app.use(cors({
   credentials: true, 
 }))
 
-app.use(session({ secret: 'chatex-zaq12wsx' }));
+app.use(session({ 
+    store: new RedisStore({ client: redisClient }), // Pass the Redis client to the RedisStore
+    secret: 'chatex-zaq12wsx',
+    resave: false,
+    saveUninitialized: false,
+}))
 app.use(passport.initialize());
 app.use(passport.session());
 
-passport.use(new GoogleStrategy({
+passport.use((req,res,next,done) => {
+  new GoogleStrategy({
     clientID: "869326613213-7dgjuusmng1u7of2ppmmbo25pq8jlefq.apps.googleusercontent.com",
     clientSecret: "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",
     callbackURL: "https://chatex-14m2.onrender.com/auth/google/callback", // The URL to handle the Google's response
@@ -51,6 +59,7 @@ passport.use(new GoogleStrategy({
         // Generate JWT and send it back to the client
         const token = jwt.sign({ id: user.email, name:user.email ,email:user.email}, jwtSecret);
         user.token = token
+        req.session.user = user
         return done(null,user);
      
     }else{
@@ -77,6 +86,7 @@ passport.use(new GoogleStrategy({
                   // Generate JWT and send it back to the client
                   const token = jwt.sign({ id:user.email, name:user.email ,email: user.email }, jwtSecret);
                   user.token = token
+                  req.session.user = user
                   return done(null,user);
                 } else {
                   res.status(401).json({ error: 'Invalid password' });
@@ -84,7 +94,7 @@ passport.use(new GoogleStrategy({
             }
         })
     }
-  }));
+  })});
 
   passport.serializeUser((user, done) => {
     // Use user ID as the key to identify the user in the session
@@ -115,8 +125,8 @@ app.use('/chat',ChatRoutes)
 app.use('/user',UserRoutes)
 
 app.get('/is-authenticated',(req,res)=>{
-  if(req.user){
-    res.json({...req.user})
+  if(req.session.user){
+    res.json({...req.session.user})
   }else{
     res.json({user:null,access_token:null})
   }

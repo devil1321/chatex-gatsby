@@ -3,10 +3,9 @@ const jwtSecret = 'jwtsecret'
 const redisClient = require('../controllers/db')
 module.exports = authenticateJWT = (req, res, next) => {
     let token
-    console.log('token',req.user)
-    console.log('req',req)
-    if(req?.user?.token){
-        token = req.user.token
+    console.log('token',req.session.user)
+    if(req?.session?.user?.token){
+        token = req.session.user.token
     }else{
         token = req.header('Authorization');
         if(token?.length > 0){
@@ -24,7 +23,7 @@ module.exports = authenticateJWT = (req, res, next) => {
                 } else {
                     const userData = JSON.parse(data);
                     userData.token = token
-                    req.user = userData;
+                    req.session.user = userData
                     next();
                 }
             })
