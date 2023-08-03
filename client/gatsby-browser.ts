@@ -13,14 +13,14 @@ export const wrapPageElement = ({ element }) => {
 
     useEffect(()=>{
         if(typeof window !== undefined){
-            if(!user){
+            if(!user && !access_token){
                 apiActions.isLogged()
             }
         }
     },[user])
 
     if(typeof window !== undefined){
-        if(localStorage.getItem('access_token')){
+        if(localStorage.getItem('access_token') !== null && !access_token){
             return element
         }else{
             navigate('/login', { replace: true });

@@ -3,6 +3,7 @@ import { APITypes } from '../types'
 interface LOGIN {
     type:APITypes.LOGIN;
     user:any;
+    access_token:any;
 }
 interface HANDLE_TOKEN {
     type:APITypes.HANDLE_TOKEN
@@ -11,11 +12,13 @@ interface HANDLE_TOKEN {
 interface REGISTER {
     type:APITypes.REGISTER;
     user:any;
+    access_token:any;
 }
 
 interface LOGOUT {
     type:APITypes.LOGOUT;
     user:any;
+    access_token:any;
 }
 interface IS_LOGGED {
     type:APITypes.IS_LOGGED;

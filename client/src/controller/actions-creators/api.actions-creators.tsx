@@ -48,7 +48,8 @@ export const register = (formData:Interfaces.FormDataRegister) => (dispatch:Disp
         }
         dispatch({
             type:APITypes.REGISTER,
-            user:res.data.user
+            user:res.data.user,
+            access_token:res.data.user.tokeb
         })
     }).catch(err => console.log(err))
 }
@@ -62,6 +63,7 @@ export const logout = () => (dispatch:Dispatch) =>{
         dispatch({
             type:APITypes.LOGOUT,
             user:res.data.user,
+            access_token:res.data.access_token
         })
     }).catch(err => console.log(err))
 }
@@ -70,7 +72,7 @@ export const isLogged = () => (dispatch:Dispatch) =>{
     .then(res=>{
         dispatch({
             type:APITypes.IS_LOGGED,
-            user:res.data,
+            user:res.data.user,
         })
     }).catch(err => console.log(err))
 }

@@ -1,3 +1,4 @@
+import { access } from "fs/promises";
 import { Action } from "../actions/api.actions"
 import { APITypes } from "../types"
 
@@ -42,17 +43,20 @@ export default (state:any = initState,action:Action) =>{
         case APITypes.LOGIN:
             return{
                 ...state,
-                user:action.user
+                user:action.user,
+                access_token:action.access_token
             }
         case APITypes.REGISTER:
             return{
                 ...state,
-                user:action.user
+                user:action.user,
+                access_token:action.access_token
             }
         case APITypes.LOGOUT:
             return{
                 ...state,
-                user:action.user
+                user:action.user,
+                access_token:action.access_token
             }
         case APITypes.IS_LOGGED:
             return{
