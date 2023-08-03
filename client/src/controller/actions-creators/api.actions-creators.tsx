@@ -33,7 +33,11 @@ export const googleAuth = () => (dispatch:Dispatch) =>{
     window.open("https://chatex-14m2.onrender.com/auth/google", "_self")
 }
 export const register = (formData:Interfaces.FormDataRegister) => (dispatch:Dispatch) =>{
-    instance.post('/auth/register',formData)
+    instance.post('/auth/register',formData,{
+        headers:{
+            'Authorization':`Bearer ${localStorage.getItem('access_token')}`
+        }
+    })
     .then(res=>{
         if(typeof window !== undefined){
             localStorage.setItem('access_token',res.data.access_token)
@@ -48,7 +52,11 @@ export const logout = () => (dispatch:Dispatch) =>{
     if(typeof window !== undefined){
         localStorage.removeItem('access_token')
     }
-    instance.get('/auth/logout')
+    instance.get('/auth/logout',{
+        headers:{
+            'Authorization':`Bearer ${localStorage.getItem('access_token')}`
+        }
+    })
     .then(res=>{
         localStorage.setItem('access_token',res.data.access_token)
         dispatch({
@@ -58,7 +66,11 @@ export const logout = () => (dispatch:Dispatch) =>{
     }).catch(err => console.log(err))
 }
 export const isLogged = () => (dispatch:Dispatch) =>{
-    instance.get('/is-authenticated')
+    instance.get('/is-authenticated',{
+        headers:{
+            'Authorization':`Bearer ${localStorage.getItem('access_token')}`
+        }
+    })
     .then(res=>{
         if(res?.data?.token){
             if(typeof window !== undefined){
@@ -73,7 +85,11 @@ export const isLogged = () => (dispatch:Dispatch) =>{
 }
 
 export const getRooms = ()  => (dispatch:Dispatch) =>{
-    instance.get('/chat/rooms')
+    instance.get('/chat/rooms',{
+        headers:{
+            'Authorization':`Bearer ${localStorage.getItem('access_token')}`
+        }
+    })
         .then(res => {
             dispatch({
                 type:APITypes.GET_ROOMS,
@@ -84,7 +100,11 @@ export const getRooms = ()  => (dispatch:Dispatch) =>{
 }
 
 export const lastRooms = (user:Interfaces.User)  => (dispatch:Dispatch) =>{
-    instance.post('/chat/last-rooms',user)
+    instance.post('/chat/last-rooms',user,{
+        headers:{
+            'Authorization':`Bearer ${localStorage.getItem('access_token')}`
+        }
+    })
     .then(res => {
         dispatch({
             type:APITypes.GET_LAST_ROOMS,
@@ -94,7 +114,11 @@ export const lastRooms = (user:Interfaces.User)  => (dispatch:Dispatch) =>{
     .catch(err => console.log(err))
 }
 export const createRoom = (room:string)  => (dispatch:Dispatch) =>{
-    instance.post('/chat/create-room',{room:room})
+    instance.post('/chat/create-room',{room:room},{
+        headers:{
+            'Authorization':`Bearer ${localStorage.getItem('access_token')}`
+        }
+    })
     .then(res => {
         dispatch({
             type:APITypes.CREATE_ROOM,
@@ -105,7 +129,11 @@ export const createRoom = (room:string)  => (dispatch:Dispatch) =>{
 }
 
 export const getUser = (email:string) => (dispatch:Dispatch) =>{
-    instance.post('/user/user',{ email:email })
+    instance.post('/user/user',{ email:email },{
+        headers:{
+            'Authorization':`Bearer ${localStorage.getItem('access_token')}`
+        }
+    })
         .then(res => {
             dispatch({
                 type:APITypes.GET_USER,
@@ -116,7 +144,11 @@ export const getUser = (email:string) => (dispatch:Dispatch) =>{
 }
 
 export const getUsers = ()  => (dispatch:Dispatch) =>{
-    instance.get('/user/users')
+    instance.get('/user/users',{
+        headers:{
+            'Authorization':`Bearer ${localStorage.getItem('access_token')}`
+        }
+    })
         .then(res => {
             dispatch({
                 type:APITypes.GET_USERS,
@@ -126,7 +158,11 @@ export const getUsers = ()  => (dispatch:Dispatch) =>{
         .catch(err => console.log(err))
 }
 export const updateUser = (user:Interfaces.User)  => (dispatch:Dispatch) =>{
-    instance.post('/user/update',user)
+    instance.post('/user/update',user,{
+        headers:{
+            'Authorization':`Bearer ${localStorage.getItem('access_token')}`
+        }
+    })
         .then(res => {
             dispatch({
                 type:APITypes.UPDATE_USER,
@@ -137,7 +173,11 @@ export const updateUser = (user:Interfaces.User)  => (dispatch:Dispatch) =>{
 }
 
 export const getRoomMessages = (room:string) => (dispatch:Dispatch) =>{
-    instance.post('/chat/get-messages',{room:room})
+    instance.post('/chat/get-messages',{room:room},{
+        headers:{
+            'Authorization':`Bearer ${localStorage.getItem('access_token')}`
+        }
+    })
         .then(res=>{
             dispatch({
                 type:APITypes.GET_MESSAGES_FROM_ROOM,
@@ -151,7 +191,11 @@ export const getPrivateMessages = (sender:string,reciver:string,room:string) => 
         reciver,
         room
     }
-    instance.post('/chat/private-messages',data)
+    instance.post('/chat/private-messages',data,{
+        headers:{
+            'Authorization':`Bearer ${localStorage.getItem('access_token')}`
+        }
+    })
         .then(res=>{
             console.log('data',res.data)
             dispatch({
@@ -162,7 +206,11 @@ export const getPrivateMessages = (sender:string,reciver:string,room:string) => 
 }
 
 export const sendMessageToRoom = (data:any) => (dispatch:Dispatch) =>{
-    instance.post('/chat/message',data)
+    instance.post('/chat/message',data,{
+        headers:{
+            'Authorization':`Bearer ${localStorage.getItem('access_token')}`
+        }
+    })
         .then(res=>{
             dispatch({
                 type:APITypes.SEND_MESSAGE_TO_ROOM,
@@ -172,7 +220,11 @@ export const sendMessageToRoom = (data:any) => (dispatch:Dispatch) =>{
 }
 
 export const sendPrivateMessage = (data:any) => (dispatch:Dispatch) =>{
-    instance.post('/chat/private-message',data)
+    instance.post('/chat/private-message',data,{
+        headers:{
+            'Authorization':`Bearer ${localStorage.getItem('access_token')}`
+        }
+    })
         .then(res=>{
             dispatch({
                 type:APITypes.SEND_PRIVATE_MESSAGE,
