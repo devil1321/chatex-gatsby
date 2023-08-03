@@ -42,8 +42,9 @@ app.use('/chat',ChatRoutes)
 app.use('/user',UserRoutes)
 
 app.get('/is-authenticated',(req,res)=>{
+  console.log(req.user)
   if(req.user){
-    res.json({...req.user})
+    res.json({user:req.user})
   }else{
     res.json({user:null,access_token:null})
   }
