@@ -99,8 +99,7 @@ passport.use(new GoogleStrategy({
         }else{
             const userObj = JSON.parse(data)
             userObj.token = user.token
-            console.log('user',user,'userob',userObj)
-            done(null,userObj);
+            done(null,{user:userObj});
         }
     }))
   });
