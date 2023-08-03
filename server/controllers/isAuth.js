@@ -4,6 +4,7 @@ const redisClient = require('../controllers/db')
 module.exports = authenticateJWT = (req, res, next) => {
     let token
     console.log('token',req.user)
+    console.log('req',req)
     if(req?.user?.token){
         token = req.user.token
     }else{
