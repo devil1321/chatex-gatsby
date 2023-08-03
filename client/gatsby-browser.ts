@@ -20,7 +20,7 @@ export const wrapPageElement = ({ element }) => {
     },[])
 
     if(typeof window !== undefined){
-        if(localStorage.getItem('access_token') !== null && localStorage.getItem('access_token') !== undefined){
+        if(localStorage.getItem('access_token') !== "null" && localStorage.getItem('access_token') !== "undefined"){
             return element
         }else{
             navigate('/login', { replace: true });
