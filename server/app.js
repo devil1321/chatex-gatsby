@@ -10,9 +10,6 @@ const AuthRoutes = require('./routes/auth.routes')
 const ChatRoutes = require('./routes/chat.routes')
 const UserRoutes = require('./routes/user.routes')
 
-const redisClient = require('./controllers/db')
-
-
 require('dotenv').config()
 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -38,8 +35,9 @@ app.use('/chat',ChatRoutes)
 app.use('/user',UserRoutes)
 
 app.get('/is-authenticated',(req,res)=>{
+  console.log(req.user)
   if(req.user){
-    res.json({user:req.user})
+    res.json({...req.user})
   }else{
     res.json({user:null,access_token:null})
   }

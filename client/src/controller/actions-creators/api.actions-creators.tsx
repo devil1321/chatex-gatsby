@@ -32,7 +32,7 @@ export const login = (formData:Interfaces.FormDataLogin) => (dispatch:Dispatch) 
             }
             dispatch({
                 type:APITypes.LOGIN,
-                access_token:res.data.user.token,
+                access_token:res.data.token,
                 user:res.data.user
             })
         }).catch(err => console.log(err))
@@ -49,7 +49,7 @@ export const register = (formData:Interfaces.FormDataRegister) => (dispatch:Disp
         dispatch({
             type:APITypes.REGISTER,
             user:res.data.user,
-            access_token:res.data.user.tokeb
+            access_token:res.data.user.token
         })
     }).catch(err => console.log(err))
 }
