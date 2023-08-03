@@ -92,21 +92,21 @@ passport.use(new GoogleStrategy({
     }
   }));
 
-  passport.serializeUser((user, done) => {
+  passport.serializeUser((data, done) => {
     // Use user ID as the key to identify the user in the session
-    done(null, user);
+    done(null, data);
   });
   
-  passport.deserializeUser((user, done) => {
+  passport.deserializeUser((data, done) => {
     // Fetch user from database or any data store based on the user ID
-    redisClient.get(`user:${user.email}`,((err,data)=>{
+    redisClient.get(`user:${data.user.email}`,((err,data)=>{
         if(err){
             return done(err)
         }else{
             const userObj = JSON.parse(data)
             done(null,{
               user:userObj,
-              access_token:user.access_token
+              access_token:data.access_token
             });
         }
     }))
