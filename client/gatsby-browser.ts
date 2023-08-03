@@ -9,7 +9,7 @@ export const wrapPageElement = ({ element }) => {
 
     const dispatch = useDispatch()
     const apiActions = bindActionCreators(ApiActions,dispatch)
-    const { user } = useSelector((state:State) => state.api)
+    const { user,access_token } = useSelector((state:State) => state.api)
 
     useEffect(()=>{
         if(typeof window !== undefined){
@@ -17,7 +17,7 @@ export const wrapPageElement = ({ element }) => {
                 apiActions.isLogged()
             }
         }
-    },[])
+    },[user])
 
     if(typeof window !== undefined){
         if(localStorage.getItem('access_token') !== null){

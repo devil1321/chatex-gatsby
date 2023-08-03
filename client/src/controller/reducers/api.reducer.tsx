@@ -7,6 +7,7 @@ interface APIState{
     users:any[];
     rooms:string[];
     msg:any;
+    instance:any;
     lastRooms:any[]
     activeRoom:{
         room:string;
@@ -22,6 +23,7 @@ const initState:APIState = {
     users:[],
     rooms:[],
     access_token:null,
+    instance:null,
     msg:'',
     lastRooms:[],
     activeRoom:{
@@ -32,6 +34,11 @@ const initState:APIState = {
 
 export default (state:any = initState,action:Action) =>{
     switch(action.type){
+        case APITypes.HANDLE_TOKEN:
+            return{
+                ...state,
+                access_token:action.token
+            }
         case APITypes.LOGIN:
             return{
                 ...state,

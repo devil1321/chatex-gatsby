@@ -44,6 +44,7 @@ router.post('/register',(req,res)=>{
                               if (user) {
                                 // Generate JWT and send it back to the client
                                 const token = jwt.sign({ id: user.email, name:user.email ,email:user.email}, jwtSecret);
+                                user.token = token
                                 res.json({ access_token:token });
                                 done(null, user);
                               } else {
