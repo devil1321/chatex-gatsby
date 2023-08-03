@@ -67,7 +67,11 @@ export const logout = () => (dispatch:Dispatch) =>{
 }
 export const isLogged = () => (dispatch:Dispatch) =>{
     instance.get('/is-authenticated')
+   
     .then(res=>{
+        if(typeof window !== undefined){
+            localStorage.setItem('access_token',res.data.token)
+        }
         dispatch({
             type:APITypes.IS_LOGGED,
             user:res.data,

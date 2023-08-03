@@ -91,9 +91,8 @@ router.post('/login', (req, res) => {
 });
 
 router.get('/logout', (req, res) => {
-    req.user = null
-    req.access_token = null
     req.logout((err)=>console.log(err));
+    req.user = null
     res.json({user:null,access_token:null})
 })
 

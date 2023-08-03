@@ -51,6 +51,7 @@ passport.use(new GoogleStrategy({
         // Generate JWT and send it back to the client
         const token = jwt.sign({ id: user.email, name:user.email ,email:user.email}, jwtSecret);
         user.token = token
+        req.user = user
         return done(null,user);
      
     }else{
@@ -77,6 +78,7 @@ passport.use(new GoogleStrategy({
                   // Generate JWT and send it back to the client
                   const token = jwt.sign({ id:user.email, name:user.email ,email: user.email }, jwtSecret);
                   user.token = token
+                  req.user = user
                   return done(null,user);
                 } else {
                   res.status(401).json({ error: 'Invalid password' });
