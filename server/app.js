@@ -35,7 +35,7 @@ app.use(session({ secret: 'chatex-zaq12wsx' }));
 app.use(passport.initialize());
 app.use(passport.session());
 
-passport.use(new GoogleStrategy({
+passport.use((req,res,next,done) => new GoogleStrategy({
     clientID: "869326613213-7dgjuusmng1u7of2ppmmbo25pq8jlefq.apps.googleusercontent.com",
     clientSecret: "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",
     callbackURL: "https://chatex-14m2.onrender.com/auth/google/callback", // The URL to handle the Google's response
