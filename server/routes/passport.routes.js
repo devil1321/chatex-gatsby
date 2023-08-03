@@ -7,10 +7,10 @@ router.get("/google",
 );
 
 router.get("/google/callback",
-  passport.authenticate("google", { failureRedirect: "http://localhost:3000/login" }),
+  passport.authenticate("google", { failureRedirect: "https://chatex-worldwide.netlify.app/login" }),
   (req, res) => {
     // Successful authentication, redirect to a success page or do something else
-    res.redirect("http://localhost:8000");
+    res.redirect("https://chatex-worldwide.netlify.app");
   }
 );
 
