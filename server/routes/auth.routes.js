@@ -45,7 +45,7 @@ router.post('/register',(req,res)=>{
                                 // Generate JWT and send it back to the client
                                 const token = jwt.sign({ id: user.email, name:user.email ,email:user.email}, jwtSecret);
                                 user.token = token
-                                res.json({ access_token:token });
+                                res.json({ user });
                                 done(null, user);
                               } else {
                                 res.status(401).json({ error: 'Invalid password' });
