@@ -11,7 +11,6 @@ const ChatRoutes = require('./routes/chat.routes')
 const UserRoutes = require('./routes/user.routes')
 
 const redisClient = require('./controllers/db')
-const RedisStore = require('connect-redis')(session);
 
 
 require('dotenv').config()
@@ -27,9 +26,6 @@ app.use(cors({
 }))
 
 app.use(session({ 
-    store:new RedisStore({
-      client:redisClient
-    }),
     secret: 'chatex-zaq12wsx',
     resave: false,
     saveUninitialized: false,

@@ -17,10 +17,10 @@ export const wrapPageElement = ({ element }) => {
                 apiActions.isLogged()
             }
         }
-    },[])
+    },[user])
 
     if(typeof window !== undefined){
-        if(localStorage.getItem('access_token') !== "null" && localStorage.getItem('access_token') !== "undefined"){
+        if(localStorage.getItem('access_token')){
             return element
         }else{
             navigate('/login', { replace: true });
