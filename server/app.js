@@ -51,8 +51,10 @@ passport.use(new GoogleStrategy({
       if (user) {
         // Generate JWT and send it back to the client
         const token = jwt.sign({ id: user.email, name:user.email ,email:user.email}, jwtSecret);
-        res.json({ access_token:token });
-        done(null, user);
+        done(null, {
+          user:user,
+          access_token:token
+        });
       } else {
         res.status(401).json({ error: 'Invalid password' });
       }
