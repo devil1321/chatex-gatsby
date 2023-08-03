@@ -28,11 +28,11 @@ export const login = (formData:Interfaces.FormDataLogin) => (dispatch:Dispatch) 
     instance.post('/auth/login',formData)
         .then(res=>{
             if(typeof window !== undefined){
-                localStorage.setItem('access_token',res.data.access_token)
+                localStorage.setItem('access_token',res.data.user.token)
             }
             dispatch({
                 type:APITypes.LOGIN,
-                access_token:res.data.token,
+                access_token:res.data.user.token,
                 user:res.data.user
             })
         }).catch(err => console.log(err))
@@ -68,11 +68,6 @@ export const logout = () => (dispatch:Dispatch) =>{
 export const isLogged = () => (dispatch:Dispatch) =>{
     instance.get('/is-authenticated')
     .then(res=>{
-        if(res?.data?.token){
-            if(typeof window !== undefined){
-                localStorage.setItem('access_token',res.data.token)
-            }
-        }
         dispatch({
             type:APITypes.IS_LOGGED,
             user:res.data,

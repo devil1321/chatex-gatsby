@@ -38,7 +38,7 @@ app.use(passport.session());
 passport.use(new GoogleStrategy({
     clientID: "869326613213-7dgjuusmng1u7of2ppmmbo25pq8jlefq.apps.googleusercontent.com",
     clientSecret: "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",
-    callbackURL: "https://chatex-14m2.onrender.com/auth/google/callback", // The URL to handle the Google's response
+    callbackURL: "http://localhost:3000/auth/google/callback", // The URL to handle the Google's response
   },
   (accessToken, refreshToken, profile, done) => {
     // The profile object contains user information received from Google
@@ -83,7 +83,6 @@ passport.use(new GoogleStrategy({
                 } else {
                   res.status(401).json({ error: 'Invalid password' });
                 }
-                return done(null, user);
             }
         })
     }
