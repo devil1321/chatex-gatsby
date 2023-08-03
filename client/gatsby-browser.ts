@@ -18,7 +18,7 @@ export const wrapPageElement = ({ element, props }) => {
         }else{
             setIsAuth(true)
         }
-    },[user])
+    },[])
 
     if(isAuth){
         return element

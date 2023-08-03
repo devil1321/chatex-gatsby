@@ -82,7 +82,7 @@ const Login = () => {
     setIsSubmited(!isSubmited)
     setTimeout(() => {
       navigate('/')
-    }, 1000);
+    }, 3000);
   }
 
 useEffect(()=>{
