@@ -50,10 +50,8 @@ passport.use(new GoogleStrategy({
     if(user){
         // Generate JWT and send it back to the client
         const token = jwt.sign({ id: user.email, name:user.email ,email:user.email}, jwtSecret);
-        done(null, {
-          user:user,
-          access_token:token
-        });
+        user.token = token
+        done(null,user);
      
     }else{
         redisClient.set(`user:${profile._json.email}`,JSON.stringify({
