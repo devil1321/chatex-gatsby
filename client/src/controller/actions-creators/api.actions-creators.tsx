@@ -3,18 +3,27 @@ import { Dispatch } from 'redux'
 import * as Interfaces from '../interfaces'
 import axios from 'axios'
 
-
-const instance = axios.create({
+let instance = axios.create({
     // Set the base URL of your back-end (Express server) running on port 3000
     baseURL: 'https://chatex-14m2.onrender.com',
-  
+    
     // Set the proxy configuration to point to your back-end
     // Enable sending credentials (e.g., cookies) to the back-end
     withCredentials: true,
-    headers:{
-        "Authorization":`Bearer ${typeof window !== undefined ? localStorage.getItem('access_token') : null}`
-    }
-  });
+});
+if(typeof window !== undefined){
+    instance = axios.create({
+        // Set the base URL of your back-end (Express server) running on port 3000
+        baseURL: 'https://chatex-14m2.onrender.com',
+        
+        // Set the proxy configuration to point to your back-end
+        // Enable sending credentials (e.g., cookies) to the back-end
+        withCredentials: true,
+        headers:{
+            "Authorization":`Bearer ${localStorage.getItem('access_token')}`
+        }
+    });
+}
 
 export const login = (formData:Interfaces.FormDataLogin) => (dispatch:Dispatch) =>{
     instance.post('/auth/login',formData)

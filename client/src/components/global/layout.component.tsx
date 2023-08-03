@@ -4,12 +4,6 @@ import Nav from './nav.component';
 import Footer from './footer.component';
 import '../../theme/styles.scss'
 
-import { useSelector,useDispatch } from 'react-redux'
-import { State } from '../../controller/reducers';
-import { bindActionCreators } from 'redux'
-import * as ApiActions from '../../controller/actions-creators/api.actions-creators'
-
-
 interface LayoutProps{
     title:string;
     className:string;
