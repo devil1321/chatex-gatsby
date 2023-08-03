@@ -114,7 +114,6 @@ useEffect(()=>{
         <Link to="/register">Register</Link>
         <button className="cred__submit">Login</button>
       </form>
-      <button className="cred__google" onClick={()=>apiActions.googleAuth()}>Google</button>
     </div>
   )
 }

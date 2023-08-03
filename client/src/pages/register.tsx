@@ -136,7 +136,6 @@ const Register = () => {
         <Link to="/login">Login</Link>
         <button className="cred__submit">Register</button>
       </form>
-      <button className="cred__google" onClick={()=>apiActions.googleAuth()}>Google</button>
     </div>
   )
 }

@@ -13,7 +13,6 @@ export enum APITypes {
     HANDLE_TOKEN = 'HANDLE_TOKEN',
     LOGIN = 'LOGIN',
     REGISTER = 'REGISTER',
-    GOOGLE_AUTH = 'GOOGLE_AUTH',
     LOGOUT = 'LOGOUT',
     IS_LOGGED = 'IS_LOGGED',
     GET_ROOMS = 'GET_ROOMS',

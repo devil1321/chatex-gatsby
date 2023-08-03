@@ -49,11 +49,6 @@ export default (state:any = initState,action:Action) =>{
                 ...state,
                 user:action.user
             }
-        case APITypes.GOOGLE_AUTH:
-            return{
-                ...state,
-                user:action.user
-            }
         case APITypes.LOGOUT:
             return{
                 ...state,
