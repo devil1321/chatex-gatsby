@@ -2,11 +2,14 @@ const jwt = require('jsonwebtoken');
 const jwtSecret = 'jwtsecret'
 const redisClient = require('../controllers/db')
 module.exports = authenticateJWT = (req, res, next) => {
-    const token = req.header('Authorization');
-    if (!token) res.sendStatus(401); 
-    else{
-    const extractedToken = token.slice(7);
-    jwt.verify(extractedToken, jwtSecret, (err, user) => {
+    let token
+    if(req?.user?.token){
+        token = req.user.token
+    }else{
+        token = req.header('Authorization');
+        token = token.slice(7);
+    }
+    jwt.verify(token, jwtSecret, (err, user) => {
       if (err) {
         res.json(err)
       }else{ // Forbidden
@@ -16,11 +19,11 @@ module.exports = authenticateJWT = (req, res, next) => {
                   res.status(500).json({ "err": 'DB Error (Wrong User)' });
                 } else {
                     const userData = JSON.parse(data);
+                    userData.token = token
                     req.user = userData;
                     next();
                 }
             })
             }
         });
-    }
 };

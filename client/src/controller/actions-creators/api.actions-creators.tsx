@@ -14,7 +14,7 @@ const instance = axios.create({
     // Enable sending credentials (e.g., cookies) to the back-end
     withCredentials: true,
     headers:{
-        "Authorization":`Bearer ${store().getState().api.access_token ? store().getState().api.access_token : localStorage.getItem('access_token')}`
+        "Authorization":`Bearer ${localStorage.getItem('access_token')}`
     }
   });
 
@@ -38,7 +38,6 @@ export const register = (formData:Interfaces.FormDataRegister) => (dispatch:Disp
         localStorage.setItem('access_token',res.data.access_token)
         dispatch({
             type:APITypes.REGISTER,
-            access_token:res.data.access_token,
             user:res.data.user
         })
     }).catch(err => console.log(err))
@@ -51,17 +50,18 @@ export const logout = () => (dispatch:Dispatch) =>{
         dispatch({
             type:APITypes.LOGOUT,
             user:res.data.user,
-            access_token:res.data.access_token
         })
     }).catch(err => console.log(err))
 }
 export const isLogged = () => (dispatch:Dispatch) =>{
-    
     instance.get('/is-authenticated')
     .then(res=>{
+        if(res?.data?.token){
+            localStorage.setItem('access_token',res.data.token)
+        }
         dispatch({
             type:APITypes.IS_LOGGED,
-            user:res.data.user,
+            user:res.data,
         })
     }).catch(err => console.log(err))
 }

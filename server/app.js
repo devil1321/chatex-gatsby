@@ -38,7 +38,7 @@ app.use(passport.session());
 passport.use(new GoogleStrategy({
     clientID: "869326613213-7dgjuusmng1u7of2ppmmbo25pq8jlefq.apps.googleusercontent.com",
     clientSecret: "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",
-    callbackURL: "https://chatex-14m2.onrender.com/auth/google/callback", // The URL to handle the Google's response
+    callbackURL: "http://localhost:3000/auth/google/callback", // The URL to handle the Google's response
   },
   (accessToken, refreshToken, profile, done) => {
     // The profile object contains user information received from Google
@@ -77,11 +77,9 @@ passport.use(new GoogleStrategy({
                 }
                 if (user) {
                   // Generate JWT and send it back to the client
-                  const token = jwt.sign({ email: user.email }, jwtSecret);
-                  done(null, { 
-                    user:user,
-                    access_token:token 
-                  });
+                  const token = jwt.sign({ id:user.email, name:user.email ,email: user.email }, jwtSecret);
+                  user.token = token
+                  done(null,user);
                 } else {
                   res.status(401).json({ error: 'Invalid password' });
                 }
@@ -91,22 +89,20 @@ passport.use(new GoogleStrategy({
     }
   }));
 
-  passport.serializeUser((data, done) => {
+  passport.serializeUser((user, done) => {
     // Use user ID as the key to identify the user in the session
-    done(null, data);
+    done(null, user);
   });
   
-  passport.deserializeUser((data, done) => {
+  passport.deserializeUser((user, done) => {
     // Fetch user from database or any data store based on the user ID
-    redisClient.get(`user:${data.user.email}`,((err,data)=>{
+    redisClient.get(`user:${user.email}`,((err,data)=>{
         if(err){
             return done(err)
         }else{
             const userObj = JSON.parse(data)
-            done(null,{
-              user:userObj,
-              access_token:data.access_token
-            });
+            userObj.token = user.token
+            done(null,userObj);
         }
     }))
   });
@@ -123,12 +119,9 @@ app.use('/user',UserRoutes)
 
 app.get('/is-authenticated',(req,res)=>{
   if(req.user){
-    res.json({
-      access_token:req.access_token,
-      user:req.user,
-    })
+    res.json({...req.user})
   }else{
-    res.json({user:null})
+    res.json({user:null,access_token:null})
   }
 })
 
