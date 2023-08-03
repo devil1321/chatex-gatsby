@@ -11,22 +11,13 @@ let instance = axios.create({
     // Enable sending credentials (e.g., cookies) to the back-end
     withCredentials: true,
 });
-if(typeof window !== undefined){
-    instance = axios.create({
-        // Set the base URL of your back-end (Express server) running on port 3000
-        baseURL: 'https://chatex-14m2.onrender.com',
-        
-        // Set the proxy configuration to point to your back-end
-        // Enable sending credentials (e.g., cookies) to the back-end
-        withCredentials: true,
-        headers:{
-            "Authorization":`Bearer ${localStorage?.getItem('access_token')}`
-        }
-    });
-}
 
 export const login = (formData:Interfaces.FormDataLogin) => (dispatch:Dispatch) =>{
-    instance.post('/auth/login',formData)
+    instance.post('/auth/login',formData,{
+        headers:{
+            'Authorization':`Bearer ${localStorage.getItem('access_token')}`
+        }
+    })
         .then(res=>{
             if(typeof window !== undefined){
                 localStorage.setItem('access_token',res.data.access_token)
