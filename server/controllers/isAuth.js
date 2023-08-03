@@ -7,6 +7,7 @@ module.exports = authenticateJWT = (req, res, next) => {
         token = req.user.token
     }else{
         if(token?.length > 0){
+            console.log(token)
             token = req.header('Authorization');
             token = token.slice(7);
         }
