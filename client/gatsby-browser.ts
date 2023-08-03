@@ -17,9 +17,11 @@ export const wrapPageElement = ({ element }) => {
         }
     },[])
 
-    if(localStorage.getItem('access_token') !== null){
-        return element
-    }else{
-        navigate('/login', { replace: true });
+    if(typeof window !== undefined){
+        if(localStorage.getItem('access_token') !== null){
+            return element
+        }else{
+            navigate('/login', { replace: true });
+        }
     }
 };

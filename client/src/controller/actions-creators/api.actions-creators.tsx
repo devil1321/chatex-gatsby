@@ -2,8 +2,6 @@ import { APITypes } from '../types'
 import { Dispatch } from 'redux'
 import * as Interfaces from '../interfaces'
 import axios from 'axios'
-import store from '../store';
-import { access } from 'fs';
 
 
 const instance = axios.create({
@@ -14,14 +12,16 @@ const instance = axios.create({
     // Enable sending credentials (e.g., cookies) to the back-end
     withCredentials: true,
     headers:{
-        "Authorization":`Bearer ${localStorage.getItem('access_token')}`
+        "Authorization":`Bearer ${typeof window !== undefined ? localStorage.getItem('access_token') : null}`
     }
   });
 
 export const login = (formData:Interfaces.FormDataLogin) => (dispatch:Dispatch) =>{
     instance.post('/auth/login',formData)
         .then(res=>{
-            localStorage.setItem('access_token',res.data.access_token)
+            if(typeof window !== undefined){
+                localStorage.setItem('access_token',res.data.access_token)
+            }
             dispatch({
                 type:APITypes.LOGIN,
                 access_token:res.data.access_token,
@@ -35,7 +35,9 @@ export const googleAuth = () => (dispatch:Dispatch) =>{
 export const register = (formData:Interfaces.FormDataRegister) => (dispatch:Dispatch) =>{
     instance.post('/auth/register',formData)
     .then(res=>{
-        localStorage.setItem('access_token',res.data.access_token)
+        if(typeof window !== undefined){
+            localStorage.setItem('access_token',res.data.access_token)
+        }
         dispatch({
             type:APITypes.REGISTER,
             user:res.data.user
@@ -43,7 +45,9 @@ export const register = (formData:Interfaces.FormDataRegister) => (dispatch:Disp
     }).catch(err => console.log(err))
 }
 export const logout = () => (dispatch:Dispatch) =>{
-    localStorage.removeItem('access_token')
+    if(typeof window !== undefined){
+        localStorage.removeItem('access_token')
+    }
     instance.get('/auth/logout')
     .then(res=>{
         localStorage.setItem('access_token',res.data.access_token)
@@ -57,7 +61,9 @@ export const isLogged = () => (dispatch:Dispatch) =>{
     instance.get('/is-authenticated')
     .then(res=>{
         if(res?.data?.token){
-            localStorage.setItem('access_token',res.data.token)
+            if(typeof window !== undefined){
+                localStorage.setItem('access_token',res.data.token)
+            }
         }
         dispatch({
             type:APITypes.IS_LOGGED,
