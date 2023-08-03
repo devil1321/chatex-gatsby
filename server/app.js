@@ -79,8 +79,10 @@ passport.use(new GoogleStrategy({
                 if (user) {
                   // Generate JWT and send it back to the client
                   const token = jwt.sign({ email: user.email }, jwtSecret);
-                  res.json({ access_token:token });
-                  done(null, user);
+                  done(null, { 
+                    user:user,
+                    access_token:token 
+                  });
                 } else {
                   res.status(401).json({ error: 'Invalid password' });
                 }
@@ -92,17 +94,20 @@ passport.use(new GoogleStrategy({
 
   passport.serializeUser((user, done) => {
     // Use user ID as the key to identify the user in the session
-    done(null, user.email);
+    done(null, user);
   });
   
-  passport.deserializeUser((email, done) => {
+  passport.deserializeUser((user, done) => {
     // Fetch user from database or any data store based on the user ID
-    redisClient.get(`user:${email}`,((err,data)=>{
+    redisClient.get(`user:${user.email}`,((err,data)=>{
         if(err){
             return done(err)
         }else{
             const userObj = JSON.parse(data)
-            done(null, userObj);
+            done(null,{
+              user:userObj,
+              access_token:user.access_token
+            });
         }
     }))
   });
@@ -118,7 +123,14 @@ app.use('/chat',ChatRoutes)
 app.use('/user',UserRoutes)
 
 app.get('/is-authenticated',(req,res)=>{
-  res.json({...req.user})
+  if(req.user){
+    res.json({
+      access_token:req.access_token,
+      user:req.user,
+    })
+  }else{
+    res.json({user:null})
+  }
 })
 
 

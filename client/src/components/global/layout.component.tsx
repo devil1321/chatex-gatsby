@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import Seo from './seo.component';
 import Nav from './nav.component';
 import Footer from './footer.component';
@@ -8,7 +8,6 @@ import { useSelector,useDispatch } from 'react-redux'
 import { State } from '../../controller/reducers';
 import { bindActionCreators } from 'redux'
 import * as ApiActions from '../../controller/actions-creators/api.actions-creators'
-import { navigate } from 'gatsby';
 
 
 interface LayoutProps{
@@ -18,39 +17,6 @@ interface LayoutProps{
 }
 
 const Layout:React.FC<LayoutProps> = ({title,className,children}) => {
-
-  const { user } = useSelector((state:State) => state.api)
-  const dispatch = useDispatch()
-  const apiActions = bindActionCreators(ApiActions,dispatch)
-  
-  const [isSet,setIsSet] = useState<boolean>(false)
-  
-  useEffect(() => {
-    if(!isSet){
-      apiActions.isLogged()
-      setIsSet(true)
-    }
-    if(user && isSet){
-      localStorage.setItem("isLogged","true")
-    }
-    console.log(user)
-  }, [isSet,user])
-
-  useEffect(()=>{
-    setTimeout(() => {
-      if(isSet){
-        if(!user){
-          const isLogged = localStorage.getItem('isLogged')
-          if(isLogged === 'true'){
-            apiActions.isLogged()
-          }else{
-            navigate('/login')
-          }
-        }
-      }
-    }, 100);
-  },[user])
-
 
   return (
     <div className={className}>

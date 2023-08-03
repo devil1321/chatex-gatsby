@@ -8,8 +8,7 @@ module.exports = authenticateJWT = (req, res, next) => {
     jwt.verify(extractedToken, jwtSecret, (err, user) => {
       if (err) {
         res.json(err)
-      } // Forbidden
-      if(user){
+      }else if(user){ // Forbidden
           redisClient.get(`user:${user.email}`, (err, data) => {
               if (err) {
                   console.error("Error retrieving JSON data from Redis:", err);

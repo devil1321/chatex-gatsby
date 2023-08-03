@@ -3,6 +3,7 @@ import { APITypes } from "../types"
 
 interface APIState{
     user:any;
+    access_token:string | null;
     users:any[];
     rooms:string[];
     msg:any;
@@ -20,6 +21,7 @@ const initState:APIState = {
     user:null,
     users:[],
     rooms:[],
+    access_token:null,
     msg:'',
     lastRooms:[],
     activeRoom:{

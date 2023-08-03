@@ -2,63 +2,74 @@ import { APITypes } from '../types'
 import { Dispatch } from 'redux'
 import * as Interfaces from '../interfaces'
 import axios from 'axios'
-import { rejects } from 'assert';
+import store from '../store';
+import { access } from 'fs';
+
 
 const instance = axios.create({
     // Set the base URL of your back-end (Express server) running on port 3000
-    baseURL: '/.netlify/functions/proxy/',
+    baseURL: 'http://localhost:3000',
   
     // Set the proxy configuration to point to your back-end
     // Enable sending credentials (e.g., cookies) to the back-end
     withCredentials: true,
+    headers:{
+        "Authorization":`Bearer ${store().getState().api.access_token ? store().getState().api.access_token : localStorage.getItem('access_token')}`
+    }
   });
 
-export const login = (formData:Interfaces.FormDataLogin) => (dispath:Dispatch) =>{
+export const login = (formData:Interfaces.FormDataLogin) => (dispatch:Dispatch) =>{
     instance.post('/auth/login',formData)
         .then(res=>{
-            dispath({
+            localStorage.setItem('access_token',res.data.access_token)
+            dispatch({
                 type:APITypes.LOGIN,
+                access_token:res.data.access_token,
                 user:res.data.user
             })
         }).catch(err => console.log(err))
 }
-export const googleAuth = () => (dispath:Dispatch) =>{
+export const googleAuth = () => (dispatch:Dispatch) =>{
     window.open("https://chatex-14m2.onrender.com/auth/google", "_self")
 }
-export const register = (formData:Interfaces.FormDataRegister) => (dispath:Dispatch) =>{
+export const register = (formData:Interfaces.FormDataRegister) => (dispatch:Dispatch) =>{
     instance.post('/auth/register',formData)
     .then(res=>{
-        dispath({
+        localStorage.setItem('access_token',res.data.access_token)
+        dispatch({
             type:APITypes.REGISTER,
+            access_token:res.data.access_token,
             user:res.data.user
         })
     }).catch(err => console.log(err))
 }
-export const logout = () => (dispath:Dispatch) =>{
-    localStorage.removeItem('isLogged')
+export const logout = () => (dispatch:Dispatch) =>{
+    localStorage.removeItem('access_token')
     instance.get('/auth/logout')
     .then(res=>{
-        console.log(res.data)
-        dispath({
+        localStorage.setItem('access_token',res.data.access_token)
+        dispatch({
             type:APITypes.LOGOUT,
-            user:res.data.user
+            user:res.data.user,
+            access_token:res.data.access_token
         })
     }).catch(err => console.log(err))
 }
-export const isLogged = () => (dispath:Dispatch) =>{
+export const isLogged = () => (dispatch:Dispatch) =>{
+    
     instance.get('/is-authenticated')
     .then(res=>{
-        dispath({
+        dispatch({
             type:APITypes.IS_LOGGED,
-            user:res.data
+            user:res.data.user,
         })
     }).catch(err => console.log(err))
 }
 
-export const getRooms = ()  => (dispath:Dispatch) =>{
+export const getRooms = ()  => (dispatch:Dispatch) =>{
     instance.get('/chat/rooms')
         .then(res => {
-            dispath({
+            dispatch({
                 type:APITypes.GET_ROOMS,
                 rooms:res.data.rooms
             })
@@ -66,20 +77,20 @@ export const getRooms = ()  => (dispath:Dispatch) =>{
         .catch(err => console.log(err))
 }
 
-export const lastRooms = (user:Interfaces.User)  => (dispath:Dispatch) =>{
+export const lastRooms = (user:Interfaces.User)  => (dispatch:Dispatch) =>{
     instance.post('/chat/last-rooms',user)
     .then(res => {
-        dispath({
+        dispatch({
             type:APITypes.GET_LAST_ROOMS,
             reciver:res.data
         })
     })
     .catch(err => console.log(err))
 }
-export const createRoom = (room:string)  => (dispath:Dispatch) =>{
+export const createRoom = (room:string)  => (dispatch:Dispatch) =>{
     instance.post('/chat/create-room',{room:room})
     .then(res => {
-        dispath({
+        dispatch({
             type:APITypes.CREATE_ROOM,
             msg:res.data
         })
@@ -87,10 +98,10 @@ export const createRoom = (room:string)  => (dispath:Dispatch) =>{
     .catch(err => console.log(err))
 }
 
-export const getUser = (email:string) => (dispath:Dispatch) =>{
+export const getUser = (email:string) => (dispatch:Dispatch) =>{
     instance.post('/user/user',{ email:email })
         .then(res => {
-            dispath({
+            dispatch({
                 type:APITypes.GET_USER,
                 reciver:res.data
             })
@@ -98,20 +109,20 @@ export const getUser = (email:string) => (dispath:Dispatch) =>{
         .catch(err => console.log(err))
 }
 
-export const getUsers = ()  => (dispath:Dispatch) =>{
+export const getUsers = ()  => (dispatch:Dispatch) =>{
     instance.get('/user/users')
         .then(res => {
-            dispath({
+            dispatch({
                 type:APITypes.GET_USERS,
                 users:res.data
             })
         })
         .catch(err => console.log(err))
 }
-export const updateUser = (user:Interfaces.User)  => (dispath:Dispatch) =>{
+export const updateUser = (user:Interfaces.User)  => (dispatch:Dispatch) =>{
     instance.post('/user/update',user)
         .then(res => {
-            dispath({
+            dispatch({
                 type:APITypes.UPDATE_USER,
                 user:res.data
             })
