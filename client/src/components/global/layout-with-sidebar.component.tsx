@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import Seo from './seo.component';
 import Sidebar from './sidebar.component';
 import Nav from './nav.component';
@@ -20,19 +20,23 @@ const LayoutWithSidebar:React.FC<LayoutProps> = ({title,className,children}) => 
 
   const dispatch = useDispatch()
   const apiActions = bindActionCreators(ApiActions,dispatch)
+
+  const [token,setToken] = useState<any>(null)
   
   useEffect(()=>{
     if(typeof window !== undefined){
       setTimeout(() => {
-          const token = localStorage.getItem('access_token')
-          if(token !== null && token !== undefined && token !== 'null' && token !== 'undefined'){
-            apiActions.isLogged()
-          }else{
-            navigate('/login')
-          }
+        if(token !== localStorage.getItem('access_token')){
+          setToken(localStorage.getItem('access_token'))
+        }
+        if(token !== null && token !== undefined && token !== 'null' && token !== 'undefined'){
+          apiActions.isLogged()
+        }else{
+          navigate('/login')
+        }
         }, 2000);
     }
-  },[localStorage.getItem('access_token')])
+  },[token])
 
   
   return (
