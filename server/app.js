@@ -34,7 +34,9 @@ app.use(cors({
 }))
 
 app.use(session({ 
-    store: new RedisStore({ client: redisClient }), // Pass the Redis client to the RedisStore
+    store:new RedisStore({
+      client:redisClient
+    }),
     secret: 'chatex-zaq12wsx',
     resave: false,
     saveUninitialized: false,
@@ -42,8 +44,7 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-passport.use((req,res,next,done) => {
-  new GoogleStrategy({
+passport.use(new GoogleStrategy({
     clientID: "869326613213-7dgjuusmng1u7of2ppmmbo25pq8jlefq.apps.googleusercontent.com",
     clientSecret: "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",
     callbackURL: "https://chatex-14m2.onrender.com/auth/google/callback", // The URL to handle the Google's response
@@ -94,7 +95,7 @@ passport.use((req,res,next,done) => {
             }
         })
     }
-  })});
+  }));
 
   passport.serializeUser((user, done) => {
     // Use user ID as the key to identify the user in the session
