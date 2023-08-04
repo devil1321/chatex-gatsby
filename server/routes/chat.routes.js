@@ -73,6 +73,7 @@ router.post('/get-messages',(req,res)=>{
             const parsed = JSON.parse(data)
             res.json({
                 room:room,
+                date:date,
                 messages:parsed
             })
         }
@@ -114,7 +115,8 @@ router.post('/message',(req,res)=>{
 })
 router.post('/private-messages',async(req,res)=>{
     const { reciver,sender,room } = req.body
-    redisClient.get(`${sender}:${reciver}`,(err,data)=>{
+    console.log(req.body,'pr')
+    redisClient.get(`${reciver}:${sender}`,(err,data)=>{
         if(err){
             res.json({'msg':'Cannot Get Private Messages'})
         }else{
@@ -132,7 +134,6 @@ router.post('/private-messages',async(req,res)=>{
 })
 router.post('/private-message',(req,res)=>{
     const { reciver,sender,message } = req.body
-    console.log(req.body)
     redisClient.get(`${reciver.email}:${sender}`,(err,data)=>{
         if(err){
             res.json({'msg':'Cannot Send Message'})
@@ -144,7 +145,7 @@ router.post('/private-message',(req,res)=>{
                 messages = []
                 messages.push(message)
             }
-            redisClient.set(`${sender}:${reciver.email}`, JSON.stringify(messages), (err, reply) => {
+            redisClient.set(`${reciver.email}:${sender}`, JSON.stringify(messages), (err, reply) => {
                 if (err) {
                   console.error("Error storing JSON data in Redis:", err);
                 } else {

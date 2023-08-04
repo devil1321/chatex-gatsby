@@ -22,6 +22,10 @@ const User:React.FC<{user:UserInterface}> = ({user}) => {
   const handleContact = () =>{
     chatActions.handleRoom('private')
     chatActions.handleReciver(user)
+    if(user?.email){
+      console.log(userReduxState)
+      apiActions.handleContacs({email:user.email},{...userReduxState})
+    }
     apiActions.sendPrivateMessage({
       reciver:{
         email:user.email,

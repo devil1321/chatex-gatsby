@@ -2,13 +2,14 @@ import { APITypes } from '../types'
 import { Dispatch } from 'redux'
 import * as Interfaces from '../interfaces'
 import axios from 'axios'
+import store from '../store';
 
 
 const access_token = typeof window !== 'undefined' ? localStorage.getItem('access_token') : null;
 
 let instance = axios.create({
     // Set the base URL of your back-end (Express server) running on port 3000
-    baseURL: 'https://chatex-14m2.onrender.com',
+    baseURL: 'http://localhost:3000',
     headers:{
         'Authorization':`Bearer ${access_token}`
     },
@@ -23,6 +24,17 @@ export const handleToken = (token:string) => (dispatch:Dispatch) =>{
         token:token
     })
 }
+export const handleContacs = (contact:any,user:Interfaces.User) => (dispatch:Dispatch) =>{
+    instance.post('/user/add-contact',{user:user,contact:contact})
+        .then(res => {
+            dispatch({
+                type:APITypes.HANDLE_CONTACTS,
+                user:res.data
+            })
+        })
+        .catch(err => console.log(err))
+}
+
 
 export const login = (formData:Interfaces.FormDataLogin) => (dispatch:Dispatch) =>{
     instance.post('/auth/login',formData)
@@ -131,7 +143,7 @@ export const getUsers = ()  => (dispatch:Dispatch) =>{
         .catch(err => console.log(err))
 }
 export const updateUser = (user:Interfaces.User)  => (dispatch:Dispatch) =>{
-    instance.post('/user/update')
+    instance.post('/user/update',user)
         .then(res => {
             dispatch({
                 type:APITypes.UPDATE_USER,
@@ -177,7 +189,7 @@ export const sendMessageToRoom = (data:any) => (dispatch:Dispatch) =>{
 }
 
 export const sendPrivateMessage = (data:any) => (dispatch:Dispatch) =>{
-    instance.post('/chat/private-message')
+    instance.post('/chat/private-message',data)
         .then(res=>{
             dispatch({
                 type:APITypes.SEND_PRIVATE_MESSAGE,

@@ -40,6 +40,11 @@ export default (state:any = initState,action:Action) =>{
                 ...state,
                 access_token:action.token
             }
+        case APITypes.HANDLE_CONTACTS:
+            return{
+                ...state,
+                user:action.user
+            }
         case APITypes.LOGIN:
             return{
                 ...state,

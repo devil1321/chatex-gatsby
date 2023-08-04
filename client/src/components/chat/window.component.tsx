@@ -1859,11 +1859,15 @@ const Window = () => {
       message:{
         msg:message,
         date:new Date().toISOString(),
-        user:user?.email,
+        reciver:null,
+        sender:user?.email,
       },
     }
     if(room !== 'private'){
       apiActions.sendMessageToRoom(data)
+      setTimeout(() => {
+        apiActions.getRoomMessages(room)
+      }, 1000);
     }else{
       apiActions.sendPrivateMessage({
         reciver:reciver,
@@ -1877,7 +1881,13 @@ const Window = () => {
       })
     }
     setMessage('')
+    setTimeout(() => {
+      apiActions.getPrivateMessages(user?.email,reciver?.email,room)
+    }, 1000);
   }
+  useEffect(()=>{
+    console.log(activeRoom)
+  },[activeRoom])
   useEffect(()=>{
     handleParseEmojies(emojiList)
     setTimeout(() => {
@@ -1887,7 +1897,7 @@ const Window = () => {
         apiActions.getPrivateMessages(user?.email,reciver?.email,room)
       }
     }, 1000);
-  },[room])
+  },[room,user])
 
   return (
     <div className='chat__window'>
@@ -1898,9 +1908,9 @@ const Window = () => {
       <div className="chat__window-messages">
         {activeRoom?.messages?.messages?.map((m:any,i:number) =>{
           return(
-            <div key={m} className={`chat__window-message ${m?.message?.user === user?.email ? 'reciver' : 'sender'}`}>
-              <p className='chat__window-message-msg'>{m?.message?.msg}</p>
-              <p className='chat__window-message-user-and-date'>{m?.message?.user} {m?.message?.date}</p>
+            <div key={i} className={`chat__window-message ${m?.sender ? m.sender === user?.email ? 'reciver' : 'sender' : m?.message?.sender === user?.email ? 'reciver' : 'sender'}`}>
+              <p className='chat__window-message-msg'>{m?.message?.msg ? m?.message.msg : m?.msg}</p>
+              <p className='chat__window-message-user-and-date'>{m?.sender ? m?.sender === user?.email ? m?.sender: m?.reciver : m?.message?.sender === user?.email ? m?.message?.sender  : m?.message?.reciver } {m?.date ? m?.date : m?.message?.date }</p>
             </div>
           )
         })}

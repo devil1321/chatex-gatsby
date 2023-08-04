@@ -3,15 +3,18 @@ import { useSelector,useDispatch } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { State } from '../../controller/reducers'
 import * as ChatActions from '../../controller/actions-creators/chat.action-creators'
+import * as ApiActions from '../../controller/actions-creators/api.actions-creators'
 import { navigate } from 'gatsby'
 
 const Contacts = () => {
 
-  const { user } = useSelector((state:State) => state.api)
+  const { user,users } = useSelector((state:State) => state.api)
   const dispatch = useDispatch()
   const chatActions = bindActionCreators(ChatActions,dispatch)
+  const apiActions = bindActionCreators(ApiActions,dispatch)
 
-  const [matches,setMatches] = useState<any[]>(user?.contacts)
+  const [matches,setMatches] = useState<any[]>([])
+  const [contacts,setContacts] = useState<any[]>([])
 
   const handleChange = (e:any) => {
     const users_nodes = document.querySelectorAll('.profile__contact') as NodeListOf<HTMLDivElement>
@@ -20,9 +23,9 @@ const Contacts = () => {
       n.style.transform = 'translateX(-500px)'
     })
     if(e.target.value.length === 0){
-      setMatches(user?.contacts)
+      setMatches(contacts)
     }else{
-      const tmp = user?.contacts?.filter((u:any) => {
+      const tmp = contacts?.filter((u:any) => {
         const regExp = new RegExp(`^${e.target.value}`,'i')
         return regExp.test(u?.email) || regExp.test(u?.username)
       })
@@ -39,6 +42,38 @@ const Contacts = () => {
       }, startTime += delay)
     })
   }
+
+  const handleFilter = () =>{
+    console.log(user)
+    if(user?.contacts){
+    const tmpContacts = user?.contacts.map((u:any) =>{
+      const contact = users.find((c:any) => c.email === u.email)
+      if(contact){
+        const user = {
+          email:contact.email,
+          isOnline:u.isOnline
+        }
+        return user
+      }
+    })
+    if(user){
+      setContacts([...tmpContacts])
+    }
+  }
+} 
+
+
+  useEffect(()=>{
+    apiActions.getUsers()
+  },[])
+
+  useEffect(()=>{
+    handleFilter()
+  },[users,user])
+
+  useEffect(()=>{
+    setMatches([...contacts])
+  },[contacts])
 
   useEffect(()=>{
     handleAnimation(0,100)

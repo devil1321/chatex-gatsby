@@ -82,6 +82,9 @@ const Users = () => {
   const handleContact = (reciver:any) =>{
     chatActions.handleRoom('private')
     chatActions.handleReciver(reciver)
+    if(reciver?.email){
+      apiActions.handleContacs({email:reciver.email},user)
+    }
     apiActions.sendPrivateMessage({
       reciver:{
         email:reciver.email,
@@ -120,8 +123,6 @@ const Users = () => {
           return(
             <div className={`chat__users-user ${m?.user?.isOnline ? 'online' : 'offline' } ${active && 'active'}`}
               onClick={()=>{
-                chatActions.handleReciver(m?.user)
-                chatActions.handleRoom('private')
                 handleContact(m?.user)
               }}
             >{m?.user?.email}</div>

@@ -10,6 +10,7 @@ export enum ChatTypes{
 }
 
 export enum APITypes {
+    HANDLE_CONTACTS = 'HANDLE_CONTACTS',
     HANDLE_TOKEN = 'HANDLE_TOKEN',
     LOGIN = 'LOGIN',
     REGISTER = 'REGISTER',

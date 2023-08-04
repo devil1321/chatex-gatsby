@@ -45,8 +45,7 @@ router.post('/register',(req,res)=>{
                                 // Generate JWT and send it back to the client
                                 const token = jwt.sign({ id: user.email, name:user.email ,email:user.email}, jwtSecret);
                                 user.token = token
-                                res.json({ user });
-                                done(null, user);
+                                res.json({ ...user });
                               } else {
                                 res.status(401).json({ error: 'Invalid password' });
                               }
@@ -79,8 +78,16 @@ router.post('/login', (req, res) => {
           bcrypt.compare(password.trim(), userData.password, function (err, result) {
             if (result) {
               const token = jwt.sign({ id: userData.email, name:userData.email ,email:userData.email}, jwtSecret);
-              userData.token = token
-              res.json({ user:userData });
+              const data = {
+                ...userData,
+                isOnline:true
+              }
+              delete data.token
+              redisClient.set(`user:${userData.email}`, JSON.stringify(data), (err, reply) => {
+                console.log('logged in')
+              })
+              data.token = token
+              res.json({ user:data });
             } else {
               res.json({user:null})
             }
@@ -91,8 +98,16 @@ router.post('/login', (req, res) => {
 });
 
 router.get('/logout', (req, res) => {
-    req.user = null
-    res.json({user:null,access_token:null})
+  const data = {
+    ...req.user,
+    isOnline:false
+  }
+  delete data.token
+  redisClient.set(`user:${data.email}`, JSON.stringify(data), (err, reply) => {
+    console.log('logged out')
+  })
+  req.user = null
+  res.json({user:null,access_token:null})
 })
 
 module.exports = router;

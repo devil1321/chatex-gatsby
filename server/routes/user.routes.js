@@ -41,11 +41,12 @@ router.post('/update',(req,res)=>{
         bcrypt.genSalt(saltRounds, function(err, salt) {
             bcrypt.hash(password, salt, function(err, hash) {
                 const user = {
-                    email:req.session.user.email,
-                    username:req.session.user.username,
+                    email:req.user.email,
+                    username:req.user.username,
                     password:hash,
-                    phone:req.session.user.phone,
-                    aboutMe:req.session.user.aboutMe,
+                    phone:req.user.phone,
+                    aboutMe:req.user.aboutMe,
+                    isOnline:true
                 }
                 updateUser(req,res,user)
                 res.json({user})
@@ -57,7 +58,8 @@ router.post('/update',(req,res)=>{
             email, 
             password, 
             phone, 
-            aboutMe 
+            aboutMe, 
+            isOnline:true,
         }
         updateUser(req,res,user)
         res.json({user})
@@ -66,9 +68,12 @@ router.post('/update',(req,res)=>{
 
 router.post('/add-contact',(req,res)=>{
     const { user, contact } = req.body
-    let tmpUser = user
+    let tmpUser = {...user }
     let tmpContacts = [...user.contacts]
-    tmpContacts.push(contact)
+    const isObjectInArray = tmpContacts.some((item) => item.email === contact.email);
+    if(!isObjectInArray){
+        tmpContacts.push(contact)
+    }
     tmpUser.contacts = tmpContacts
     updateUser(req,res,tmpUser)
 })

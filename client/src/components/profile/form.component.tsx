@@ -80,7 +80,7 @@ const Form = () => {
       isOnline:user?.isOnline,
       contacts:user?.contacts
     })
-  },[isSubmited])
+  },[isSubmited,user])
 
   return (
     <div className='profile__form-wrapper'>

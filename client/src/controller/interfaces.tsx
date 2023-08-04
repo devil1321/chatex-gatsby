@@ -18,6 +18,7 @@ export interface User{
     password:string;
     contacts:{
         email:string;
+        isOnline:boolean;
     }[]
   }
   
