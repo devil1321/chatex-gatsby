@@ -115,7 +115,6 @@ router.post('/message',(req,res)=>{
 })
 router.post('/private-messages',async(req,res)=>{
     const { reciver,sender,room } = req.body
-    console.log(req.body,'pr')
     redisClient.get(`${reciver}:${sender}`,(err,data)=>{
         if(err){
             res.json({'msg':'Cannot Get Private Messages'})

@@ -16,11 +16,11 @@ const Users = () => {
   const dispatch = useDispatch()
   const apiActions = bindActionCreators(ApiActions,dispatch)
   const chatActions = bindActionCreators(ChatActions,dispatch)
-  const { activeRoom, user } = useSelector((state:State) => state.api) 
+  const { activeRoom, user, users } = useSelector((state:State) => state.api) 
   const { room , reciver} = useSelector((state:State) => state.chat) 
   
   const [matches,setMatches] = useState<Message[]>([])
-  const [active,setActive] = useState<string>('')
+  const [isReload,setIsReload] = useState<boolean>(false)
 
   const handleChange = (e:any) => {
     const users_nodes = document.querySelectorAll('.chat__users-user') as NodeListOf<HTMLDivElement>
@@ -50,10 +50,19 @@ const Users = () => {
   }
 
   const handleSetMatches = () =>{
-    apiActions.getRoomMessages(room)
+    if(room !== 'private'){
+      apiActions.getRoomMessages(room)
+      apiActions.getUsers()
+    }else{
+      apiActions.getPrivateMessages(user?.email,reciver?.email,room)
+    }
     setTimeout(() => {
-      setMatches(removeDuplicates(activeRoom?.messages?.messages))
-    }, 100);
+      if(room === 'private'){
+        setMatches(removeDuplicates(activeRoom?.messages?.messages))
+      }else{
+        setMatches([...users])
+      }
+    }, 3000);
   }
 
   const removeDuplicates = (arr: Message[]): Message[] => {
@@ -71,46 +80,31 @@ const Users = () => {
     }
   }
 
-  const handleActive = () =>{
-    matches.forEach(m=>{
-      if(reciver.email === m?.user?.email){
-        setActive('active')
-      }
-    })
-  }
-
   const handleContact = (reciver:any) =>{
+    setIsReload(!isReload)
     chatActions.handleRoom('private')
     chatActions.handleReciver(reciver)
     if(reciver?.email){
       apiActions.handleContacs({email:reciver.email},user)
     }
     apiActions.sendPrivateMessage({
-      reciver:{
-        email:reciver.email,
-      },
+      reciver:reciver,
       sender:user?.email,
       message:{
-        user:user?.email,
-        message:`Contanct With User ${user?.email}`,
-        room:room
-      }
+        reciver:reciver,
+        sender:user?.email,
+        msg:`Contact with ${reciver.email}`,
+        date:new Date().toISOString()
+      },
     })
-    if(room !== 'private'){
-      apiActions.getRoomMessages(room)
-    }else{
-      apiActions.getPrivateMessages(user?.email,reciver?.email,room)
-    }
   }
-
-
-  useEffect(()=>{
-    handleActive()
-  },[reciver])
 
   useEffect(()=>{
     handleSetMatches()
-  },[room])
+    setTimeout(() => {
+      setIsReload(false)
+    }, 1000);
+  },[room,isReload])
 
   useEffect(()=>{
     handleAnimation(0,100)
@@ -118,14 +112,14 @@ const Users = () => {
 
   return (
     <div className='chat__users'>
-      {matches?.map((m:Message) => {
-        if(m?.user?.email && m?.user?.isOnline){
+      {matches?.map((m:any) => {
+        if(m?.reciver || m?.email){
           return(
-            <div className={`chat__users-user ${m?.user?.isOnline ? 'online' : 'offline' } ${active && 'active'}`}
+            <div className={`chat__users-user ${m?.isOnline ? m?.isOnline ? 'online' : 'offline' : m?.reciver?.isOnline ? 'online' : 'offline' } ${m?.email ? user?.email === m?.email ? 'active' : null : reciver.email === m?.reciver?.email ? 'active' : null}`}
               onClick={()=>{
-                handleContact(m?.user)
+                handleContact(m?.email ? m : m?.reciver)
               }}
-            >{m?.user?.email}</div>
+            >{m?.email ? m?.email : m?.reciver?.email}</div>
             )
         }else{
           return null

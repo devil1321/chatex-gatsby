@@ -69,13 +69,15 @@ router.post('/update',(req,res)=>{
 router.post('/add-contact',(req,res)=>{
     const { user, contact } = req.body
     let tmpUser = {...user }
-    let tmpContacts = [...user.contacts]
-    const isObjectInArray = tmpContacts.some((item) => item.email === contact.email);
-    if(!isObjectInArray){
-        tmpContacts.push(contact)
+    if(user?.contacts?.length){
+        let tmpContacts = [...user.contacts]
+        const isObjectInArray = tmpContacts.some((item) => item.email === contact.email);
+        if(!isObjectInArray){
+            tmpContacts.push(contact)
+        }
+        tmpUser.contacts = tmpContacts
+        updateUser(req,res,tmpUser)
     }
-    tmpUser.contacts = tmpContacts
-    updateUser(req,res,tmpUser)
 })
 
 module.exports = router

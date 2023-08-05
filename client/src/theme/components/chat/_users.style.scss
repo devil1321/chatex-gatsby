@@ -28,6 +28,9 @@
         &:hover{
             background-color: rgb(220, 240, 181);
         }
+        &.active{
+            background-color: rgb(245, 197, 135);
+        }
         &.online{
             &::before{
                 content: '';

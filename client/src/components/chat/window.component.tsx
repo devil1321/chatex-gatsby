@@ -1879,11 +1879,11 @@ const Window = () => {
           date:new Date().toISOString()
         },
       })
+      setTimeout(() => {
+        apiActions.getPrivateMessages(user?.email,reciver?.email,room)
+      }, 1000);
     }
     setMessage('')
-    setTimeout(() => {
-      apiActions.getPrivateMessages(user?.email,reciver?.email,room)
-    }, 1000);
   }
   useEffect(()=>{
     console.log(activeRoom)
