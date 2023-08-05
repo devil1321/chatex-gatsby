@@ -107,7 +107,7 @@ router.get('/logout', (req, res) => {
     console.log('logged out')
   })
   req.user = null
-  res.json({user:null,access_token:null})
+  res.json(null)
 })
 
 module.exports = router;
