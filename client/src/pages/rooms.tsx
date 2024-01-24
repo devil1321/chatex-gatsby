@@ -50,7 +50,7 @@ const Rooms = () => {
           <form action="" onSubmit={(e)=>handleSubmit(e)}>
             <label htmlFor="">Room Name:</label>
             <div className="rooms__field">
-              <input type="text" value={room} onChange={(e)=>setRoom(e.target.value)} />
+              <input type="text" onChange={(e)=>setRoom(e.target.value)} />
             </div>
             <button type='submit'>Create</button>
           </form>
