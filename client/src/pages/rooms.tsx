@@ -14,7 +14,7 @@ const Rooms = () => {
   const chatActions = bindActionCreators(ChatActions,dispatch)
   const { rooms } = useSelector((state:State) => state.api)
 
-  const [room,setRoom] = useState<string>('')
+  const [room,setRoom] = useState<string>(null)
 
   const handleSubmit = (e:any) =>{
     e.preventDefault()
