@@ -57,7 +57,7 @@ const Nav:React.FC = () => {
         scrollbar={{ draggable: true }}
         pagination={{ clickable: true }}
       >
-       {rooms.map((r:string,i:number) =>{
+       {rooms?.map((r:string,i:number) =>{
             return(
               <SwiperSlide key={r} onClick={()=>{
                 chatActions.handleRoom(r)
