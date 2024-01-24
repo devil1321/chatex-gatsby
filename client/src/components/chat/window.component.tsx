@@ -1926,7 +1926,7 @@ const Window = () => {
               <div></div>
             </span>
             {isEmojies && <div className="chat__window-emojies">
-              {emojies.map(em => <div onClick={()=> {
+              {emojies?.map(em => <div onClick={()=> {
                 handleEmoji(em)
               }} className="chat__window-icon">{em}</div>)}
             </div>}
